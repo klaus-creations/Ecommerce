@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2022", // Updated to a modern target
+    "module": "nodenext", // Use "commonjs" if not using ESM
+    "moduleResolution": "nodenext", // Use "node" if not using ESM
+    "outDir": "./dist",
+    "rootDir": "./src", // Explicitly set root directory
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": false, // Enable library checks
+    "resolveJsonModule": true, // Only if you need to import JSON
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true // Enable source maps for debugging
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"] // Exclude "dist" to avoid recursive builds
+}
