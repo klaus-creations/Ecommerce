@@ -12,6 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true // Enable source maps for debugging
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*", "src/data/**/*.json", "prisma/**/*"],
   "exclude": ["node_modules", "dist"] // Exclude "dist" to avoid recursive builds
 }
