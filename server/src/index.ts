@@ -5,11 +5,11 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
+dotenv.config();
 
 // defining the configiatation
 const app = express();
 
-dotenv.config();
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));

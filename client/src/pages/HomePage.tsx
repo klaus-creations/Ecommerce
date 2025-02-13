@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
+import HeroComponent from "@/components/HeroComponent";
 
 export default function HomePage() {
   return (
-    <div>
-      <Button>Click Here</Button>
+    <div className="w-full">
+      <HeroComponent />
     </div>
   );
 }

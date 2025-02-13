@@ -10,7 +10,8 @@
     "skipLibCheck": false, // Enable library checks
     "resolveJsonModule": true, // Only if you need to import JSON
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true // Enable source maps for debugging
+    "sourceMap": true, // Enable source maps for debugging
+    "types": ["node"]
   },
   "include": ["src/**/*", "src/data/**/*.json", "prisma/**/*"],
   "exclude": ["node_modules", "dist"] // Exclude "dist" to avoid recursive builds
