@@ -7,7 +7,10 @@ import cors from "cors";
 import helmet from "helmet";
 dotenv.config();
 
-// defining the configiatation
+// NOTE: FOR BETTER-AUTH
+import { auth } from "./lib/auth";
+import { toNodeHandler } from "better-auth/node";
+
 const app = express();
 
 app.use(express.json());
@@ -17,6 +20,8 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cors());
+
+app.all("/api/auth/*", toNodeHandler(auth));
 
 // TODO: DEFINING THE ROUTES
 
