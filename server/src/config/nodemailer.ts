@@ -9,11 +9,4 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-let mailOptions = {
-  from: process.env.SENDER_EMAIL,
-  to: "abushnatanem@gmail.com",
-  subject: "Testing Nodemailer",
-  text: "Hello, this is a test email!",
-};
-
 export default transporter;
