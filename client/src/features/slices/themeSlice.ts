@@ -6,7 +6,7 @@ interface ThemeInterface {
 
 const storedTheme = localStorage.getItem("theme");
 const initialState: ThemeInterface = {
-  isDarkMode: storedTheme ? JSON.parse(storedTheme) : false,
+  isDarkMode: storedTheme === "dark" ? true : false,
 };
 
 const themeSlice = createSlice({
