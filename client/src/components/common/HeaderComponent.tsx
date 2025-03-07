@@ -8,7 +8,6 @@ import { toggleTheme } from "@/features/slices/themeSlice";
 export default function HeaderComponent() {
   const theme = useSelector((state: RootState) => state.theme.isDarkMode);
   const dispatch = useDispatch();
-  console.log(theme);
   return (
     <header className="w-full flex flex-col border-b-[1px] h-[15%] bg-slate-100 dark:bg-slate-900 border-gray-900/[.5] dark:bg-border-gray-200 dark:text-white text-black">
       <div
