@@ -1,4 +1,6 @@
-export const signupValidation = [
+import { body, ValidationChain } from "express-validator";
+
+export const signupValidation: ValidationChain[] = [
   body("name")
     .notEmpty()
     .withMessage("Name is required")
@@ -15,12 +17,14 @@ export const signupValidation = [
     .withMessage("Invalid email address"),
   body("password")
     .notEmpty()
-    .withMessage("password is required")
+    .withMessage("Password is required")
     .isLength({ min: 8, max: 50 })
-    .withMessage("Password length must be atleast 8 and atmost 50 characters"),
+    .withMessage(
+      "Password length must be at least 8 and at most 50 characters"
+    ),
 ];
 
-export const signInValidation = [
+export const signInValidation: ValidationChain[] = [
   body("email")
     .notEmpty()
     .withMessage("Email is required")
@@ -28,7 +32,9 @@ export const signInValidation = [
     .withMessage("Invalid email address"),
   body("password")
     .notEmpty()
-    .withMessage("password is required")
+    .withMessage("Password is required")
     .isLength({ min: 8, max: 50 })
-    .withMessage("Password length must be atleast 8 and atmost 50 characters"),
+    .withMessage(
+      "Password length must be at least 8 and at most 50 characters"
+    ),
 ];
