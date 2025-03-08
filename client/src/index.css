@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+::-webkit-scrollbar {
+  width: 2px;
+  color: #ffa600;
+}
+
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
