@@ -1,5 +1,5 @@
-import store from "./features/store";
-import { Provider } from "react-redux";
+// import store from "./features/store";
+// import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 //NOTE: IMPORTING EVERY PAGE ROUTES HERE
@@ -11,6 +11,8 @@ import SignupPage from "./pages/SignupPage";
 import SigninPage from "./pages/SigninPage";
 import MainLayoutPage from "./pages/MainLayoutPage";
 import AuthLayoutPage from "./pages/AuthLayoutPage";
+import AdminLayout from "./components/layouts/AdminLayout";
+import Dashboard from "./components/admin/Dashboard";
 
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
@@ -50,15 +52,24 @@ const browserRouter = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        path: "dashboard",
+        index: true,
+        element: <Dashboard />,
+      },
+    ],
+  },
 ]);
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <RouterProvider router={browserRouter}></RouterProvider>
-      </QueryClientProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <RouterProvider router={browserRouter}></RouterProvider>
+    </QueryClientProvider>
   );
 }
