@@ -1,8 +1,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-
-import { JWT_SECRET } from "../config/env.js";
-import userModel from "../models/users.model.js";
+import { JWT_SECRET } from "../config/env";
+import userModel from "../models/users.model";
 
 // Extend Express Request Type
 declare module "express" {
@@ -11,11 +10,11 @@ declare module "express" {
   }
 }
 
-export const authorize = async function (
+export const authorize = async (
   req: Request,
   res: Response,
   next: NextFunction
-) {
+): Promise<void> => {
   try {
     let token;
     if (
@@ -26,30 +25,29 @@ export const authorize = async function (
     }
 
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+      throw new Error("un Authorized");
     }
 
     if (!JWT_SECRET) {
       throw new Error("JWT_SECRET is not defined");
     }
 
-    const decoded = jwt.verify(token, String(JWT_SECRET)) as JwtPayload;
+    if (typeof token !== "string") {
+      throw new Error("token must be a string");
+    }
+    const decoded = jwt.verify(token, JWT_SECRET as string) as JwtPayload;
 
     if (!decoded || !decoded.userId) {
-      return res.status(401).json({ message: "Unauthorized" });
+      throw new Error("un Authorized");
     }
 
     const user = await userModel.findById(decoded.userId);
 
-    if (!user) return res.status(401).json({ message: "Unauthorized" });
+    if (!user) throw new Error("un Authorized");
 
     req.user = user;
-
     next();
   } catch (error) {
-    res.status(401).json({
-      message: "Unauthorized",
-      error: error instanceof Error ? error.message : error,
-    });
+    next(error);
   }
 };
