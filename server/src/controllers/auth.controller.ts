@@ -13,12 +13,11 @@ export const createUser = async (
   try {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
-      res
-        .status(400)
-        .json({ success: false, message: "All fields are required" });
+      throw new Error("All Fields are required");
     }
 
     const existingUser = await userModel.findOne({ email });
+
     if (existingUser) {
       const error = new Error("User already exists");
       (error as any).statusCode = 409;
@@ -106,4 +105,6 @@ export const logoutUser = async function (
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) {
+  const authHeader = req.headers["authorization"];
+};
