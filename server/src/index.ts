@@ -7,12 +7,19 @@ import cors from "cors";
 import helmet from "helmet";
 dotenv.config();
 
-// NOTE: FOR BETTER-AUTH
-import { auth } from "./lib/auth";
-import { toNodeHandler } from "better-auth/node";
+import { PORT } from "./config/env";
+import connectDB from "./config/mongodb";
+
+// NOTE: IMPORTING ALL ROUTES HERE
+import authRouter from "./routes/auth.routes";
+import categoryRouter from "./routes/category.routes";
+import errorMiddleware from "./middlewares/error.middleware";
+import reviewsRouter from "./routes/reviews.routes";
+import productRoute from "./routes/product.routes";
 
 const app = express();
 
+// NOTE: SOME USEFU; MIDDLEWARES
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -21,19 +28,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cors());
 
-app.all("/api/auth/*", toNodeHandler(auth));
-
 // TODO: DEFINING THE ROUTES
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/products", productRoute);
+app.use("/api/v1/categories", categoryRouter);
+app.use("/api/v1/reviews", reviewsRouter);
 
 app.get("/", function (req, res) {
   res.send("This is the homepage");
 });
 
-const port = process.env.PORT || 3000;
+app.use(errorMiddleware);
 
-// CREATI THE RUNNING SERVER
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+// CREATING THE RUNNING SERVER
+app.listen(PORT, async () => {
+  console.log(`Server is running on port ${PORT}`);
+  await connectDB();
 });
-
-//TODO:  to check oue server is running we write curl localhost:8000o on the other terminal
