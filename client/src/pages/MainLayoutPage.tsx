@@ -1,10 +1,8 @@
 import HeaderComponent from "@/components/common/HeaderComponent";
-import { RootState } from "@/features/store";
-import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayoutPage() {
-  const theme = useSelector((state: RootState) => state.theme.isDarkMode);
+  const theme = true;
   return (
     <div
       className={`${
