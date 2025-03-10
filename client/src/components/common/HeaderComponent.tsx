@@ -1,13 +1,9 @@
 import { width } from "@/constants/styles";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { RootState } from "@/features/store";
 import { Moon, SearchIcon, ShoppingCart, SunMoon } from "lucide-react";
-import { toggleTheme } from "@/features/slices/themeSlice";
 
 export default function HeaderComponent() {
-  const theme = useSelector((state: RootState) => state.theme.isDarkMode);
-  const dispatch = useDispatch();
+  const theme = true;
   return (
     <header className="w-full flex flex-col border-b-[1px] h-[15%] bg-slate-100 dark:bg-slate-900 border-gray-900/[.5] dark:bg-border-gray-200 dark:text-white text-black">
       <div
@@ -52,14 +48,14 @@ export default function HeaderComponent() {
           </Link>
           {theme ? (
             <button
-              onClick={() => dispatch(toggleTheme(false))}
+              onClick={() => console.log("Hello world")}
               className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md"
             >
               <Moon className="text-orange-500 size-6" />
             </button>
           ) : (
             <button
-              onClick={() => dispatch(toggleTheme(true))}
+              onClick={() => console.log("Hello world")}
               className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md"
             >
               <SunMoon className="text-orange-500 size-6" />
