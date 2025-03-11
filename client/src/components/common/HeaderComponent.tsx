@@ -1,9 +1,11 @@
 import { width } from "@/constants/styles";
 import { Link } from "react-router-dom";
 import { Moon, SearchIcon, ShoppingCart, SunMoon } from "lucide-react";
+import { useTheme } from "@/features/theme";
 
 export default function HeaderComponent() {
-  const theme = true;
+  const { isDarkMode, setTheme } = useTheme();
+  const theme = isDarkMode;
   return (
     <header className="w-full flex flex-col border-b-[1px] h-[15%] bg-slate-100 dark:bg-slate-900 border-gray-900/[.5] dark:bg-border-gray-200 dark:text-white text-black">
       <div
@@ -48,14 +50,14 @@ export default function HeaderComponent() {
           </Link>
           {theme ? (
             <button
-              onClick={() => console.log("Hello world")}
+              onClick={() => setTheme(false)}
               className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md"
             >
               <Moon className="text-orange-500 size-6" />
             </button>
           ) : (
             <button
-              onClick={() => console.log("Hello world")}
+              onClick={() => setTheme(true)}
               className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md"
             >
               <SunMoon className="text-orange-500 size-6" />
