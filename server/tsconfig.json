@@ -11,8 +11,9 @@
     "resolveJsonModule": true, // Only if you need to import JSON
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true, // Enable source maps for debugging
-    "types": ["node"]
+    "types": ["node"],
+    "lib": ["es2022"] // Specify the default library
   },
-  "include": ["src/**/*", "src/data/**/*.json", "prisma/**/*"],
+  "include": ["src/**/*", "src/data/**/*.json", "src/lib"],
   "exclude": ["node_modules", "dist"] // Exclude "dist" to avoid recursive builds
 }
