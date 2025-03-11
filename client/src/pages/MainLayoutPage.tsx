@@ -1,8 +1,10 @@
 import HeaderComponent from "@/components/common/HeaderComponent";
 import { Outlet } from "react-router-dom";
+import { useTheme } from "@/features/theme";
 
 export default function MainLayoutPage() {
-  const theme = true;
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode;
   return (
     <div
       className={`${
