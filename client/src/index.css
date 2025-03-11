@@ -5,6 +5,10 @@
   color: #ffa600;
 }
 
+button {
+  cursor: pointer;
+}
+
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));

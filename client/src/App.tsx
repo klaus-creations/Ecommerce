@@ -13,6 +13,15 @@ import MainLayoutPage from "./pages/MainLayoutPage";
 import AuthLayoutPage from "./pages/AuthLayoutPage";
 import AdminLayout from "./components/layouts/AdminLayout";
 import Dashboard from "./components/admin/Dashboard";
+import AdminCategory from "./components/admin/AdminCategory";
+import AdminProducts from "./components/admin/AdminProducts";
+import Notifications from "./components/admin/Notifications";
+import Search from "./components/admin/Search";
+import AdminDashboardLayout from "./components/layouts/AdminDahboardLayout";
+import AdminNotificationLayout from "./components/layouts/AdminNotificationLayout";
+import AdminRequest from "./components/admin/AdminRequest";
+import NewTestimonials from "./components/admin/NewTestimonials";
+import NewReviews from "./components/admin/NewReviews";
 
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
@@ -58,8 +67,50 @@ const browserRouter = createBrowserRouter([
     children: [
       {
         path: "dashboard",
-        index: true,
-        element: <Dashboard />,
+        element: <AdminDashboardLayout />,
+        children: [
+          {
+            path: "",
+            element: <Dashboard />,
+          },
+          {
+            path: "categories",
+            element: <AdminCategory />,
+          },
+          {
+            path: "products",
+            element: <AdminProducts />,
+          },
+          {
+            path: "",
+          },
+        ],
+      },
+      {
+        path: "notifications",
+        element: <AdminNotificationLayout />,
+        children: [
+          {
+            path: "",
+            element: <Notifications />,
+          },
+          {
+            path: "admin-requests",
+            element: <AdminRequest />,
+          },
+          {
+            path: "new-testimonials",
+            element: <NewTestimonials />,
+          },
+          {
+            path: "new-reviews",
+            element: <NewReviews />,
+          },
+        ],
+      },
+      {
+        path: "search",
+        element: <Search />,
       },
     ],
   },
