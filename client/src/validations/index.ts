@@ -36,3 +36,30 @@ export const signInValidations = z.object({
     .max(20, "The password must be at most 20 characters")
     .nonempty("Please enter your password"),
 });
+
+export const productValidations = z.object({
+  name: z
+    .string()
+    .min(3, "Product name must be at least 3 characters")
+    .max(50, "Product name cannot exceed 50 characters")
+    .nonempty("Please enter the product name"),
+  description: z
+    .string()
+    .max(500, "Description cannot exceed 500 characters")
+    .optional(),
+  price: z.number().min(0, "Price must be a positive number"),
+  discountedPrice: z.number().optional(),
+  stock: z.number().min(0, "Stock cannot be negative").default(0),
+  category: z.string().nonempty("Please provide a valid category ID"),
+  images: z
+    .array(z.string().url("Each image must be a valid URL"))
+    .min(1, "At least one image is required"),
+  ratings: z
+    .number()
+    .min(0, "Ratings cannot be negative")
+    .max(5, "Ratings cannot exceed 5")
+    .default(0),
+  reviews: z.array(z.string()).optional(),
+  likes: z.number().min(0, "Likes cannot be negative").default(0),
+  likedBy: z.array(z.string()).optional(),
+});
