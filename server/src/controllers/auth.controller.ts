@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 import userModel from "../models/users.model";
-import { JWT_SECRET } from "../config/env";
+import passport from "passport";
 
 export const createUser = async (
   req: Request,
@@ -37,22 +36,22 @@ export const createUser = async (
       throw new Error("User creation failed");
     }
 
-    if (!JWT_SECRET) {
-      throw new Error("JWT_SECRET is not defined");
-    }
+    req.login(newUser, (err) => {
+      if (err) {
+        return next(err);
+      }
 
-    const token = jwt.sign({ userId: newUser._id }, JWT_SECRET);
-
-    res.status(201).json({
-      success: true,
-      message: "User created successfully",
-      token,
-      data: {
-        user: {
-          name: newUser.name,
-          email: newUser.email,
+      res.status(201).json({
+        success: true,
+        message: "User created and logged in successfully",
+        data: {
+          user: {
+            id: newUser._id,
+            name: newUser.name,
+            email: newUser.email,
+          },
         },
-      },
+      });
     });
   } catch (error) {
     next(error);
@@ -64,47 +63,57 @@ export const loginUser = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  try {
-    const { email, password } = req.body;
-
-    const user = await userModel.findOne({ email });
-
+  passport.authenticate("local", (err: any, user: any, info: any) => {
+    if (err) {
+      res.status(500).json({ message: "Error logging in", error: err });
+      return;
+    }
     if (!user) {
-      throw new Error("User doesn't exist");
+      res.status(400).json({ message: info?.message });
+      return;
     }
 
-    const isPasswordSame = await bcrypt.compare(password, user.password);
-    if (!isPasswordSame) {
-      const error = new Error("The Password you entered is not the same");
-      (error as any).statusCode = 401;
-      throw error;
-    }
+    req.logIn(user, (err) => {
+      if (err) {
+        res.status(500).json({ message: "Error logging in", error: err });
+        return;
+      }
+      res.status(200).json({
+        message: "succeess",
+        data: { id: user._id, name: user.name, email: user.email },
+      });
+    });
+  })(req, res);
+};
 
-    if (!JWT_SECRET) {
-      throw new Error("JWT_SECRET is not defined");
-    }
-
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET);
-    res.status(201).json({
-      success: true,
-      message: "User created successfully",
-      token,
-      data: {
-        user: {
-          name: user.name,
-          email: user.email,
-        },
-      },
+export const logoutUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    req.logout((error) => {
+      if (error) {
+        throw new Error("something went wrong while logout");
+      }
+      res.status(204).send();
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const logoutUser = async function (
+export const isAuthenticated = async (
   req: Request,
   res: Response,
   next: NextFunction
-) {
-  const authHeader = req.headers["authorization"];
+): Promise<void> => {
+  res.status(200).json({
+    success: true,
+    data: {
+      id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+    },
+  });
 };
