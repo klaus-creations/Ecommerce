@@ -2,10 +2,22 @@ import { width } from "@/constants/styles";
 import { Link } from "react-router-dom";
 import { Moon, SearchIcon, ShoppingCart, SunMoon } from "lucide-react";
 import { useTheme } from "@/features/theme";
+import { useAuthStore } from "@/features/auth";
+import LogoutComponent from "../LogoutComponent";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function HeaderComponent() {
   const { isDarkMode, setTheme } = useTheme();
+  const { isAuthenticated, user } = useAuthStore();
   const theme = isDarkMode;
+
+  console.log(user);
   return (
     <header className="w-full flex flex-col border-b-[1px] h-[15%] bg-slate-100 dark:bg-slate-900 border-gray-900/[.5] dark:bg-border-gray-200 dark:text-white text-black">
       <div
@@ -29,21 +41,30 @@ export default function HeaderComponent() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <div className="hidden lg:flex items-center gap-2">
-            <Link
-              to="/auth/signin"
-              className="text-base tracking-[1px] bg-orange-500 py-1 px-2 rounded-md text-white"
-            >
-              Login
-            </Link>
+          <>
+            {isAuthenticated ? (
+              <Authenticated
+                name={user?.name as string}
+                email={user?.email as string}
+              />
+            ) : (
+              <div className="hidden lg:flex items-center gap-2">
+                <Link
+                  to="/auth/signin"
+                  className="text-base tracking-[1px] bg-orange-500 py-1 px-2 rounded-md text-white"
+                >
+                  Login
+                </Link>
 
-            <Link
-              to="/auth/signin"
-              className="text-base tracking-[1px] border-[1px] border-orange-500/[.5] py-1 px-2 rounded-md"
-            >
-              Sign Up
-            </Link>
-          </div>
+                <Link
+                  to="/auth/signin"
+                  className="text-base tracking-[1px] border-[1px] border-orange-500/[.5] py-1 px-2 rounded-md"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </>
 
           <Link to={"/cart"} className="cursor-pointer">
             <ShoppingCart className="text-black dark:text-white size-6" />
@@ -90,5 +111,40 @@ const SearchComponent = function () {
         {/* <SearchIcon className="text-white size-5" /> */}
       </button>
     </form>
+  );
+};
+
+interface IAuthneticated {
+  name: string;
+  email: string;
+}
+
+const Authenticated = function ({ name, email }: IAuthneticated) {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Avatar>
+          <AvatarImage src="https://githbbbbub.com/shadcn.png" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </PopoverTrigger>
+      <PopoverContent className="flex flex-col items-start gap-4">
+        <div className="w-full flex gap-3 itams-center">
+          <Avatar>
+            <AvatarImage src="https://githbbbbub.com/shadcn.png" />
+            <AvatarFallback>{name.slice(0, 2).toUpperCase()}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col items-start">
+            <span className="text-base font-bold tracking-[1px] text-gray-800 dark:text-gray-200">
+              {name}
+            </span>
+            <span className="text-sm tracking-[1px] text-gray-600 dark:text-gray-400">
+              {email}
+            </span>
+          </div>
+        </div>
+        <LogoutComponent />
+      </PopoverContent>
+    </Popover>
   );
 };
