@@ -22,6 +22,7 @@ import AdminNotificationLayout from "./components/layouts/AdminNotificationLayou
 import AdminRequest from "./components/admin/AdminRequest";
 import NewTestimonials from "./components/admin/NewTestimonials";
 import NewReviews from "./components/admin/NewReviews";
+import { Toaster } from "sonner";
 
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
@@ -120,6 +121,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster />
       <RouterProvider router={browserRouter}></RouterProvider>
     </QueryClientProvider>
   );
