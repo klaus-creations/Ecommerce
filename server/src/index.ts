@@ -7,7 +7,13 @@ import cors from "cors";
 import helmet from "helmet";
 dotenv.config();
 
-import { PORT } from "./config/env";
+import "./config/passport";
+
+// NOTE: FOR THE AUTHENTICATION
+import passport from "passport";
+import session from "express-session";
+
+import { PORT, SESSION_SECRET } from "./config/env";
 import connectDB from "./config/mongodb";
 
 // NOTE: IMPORTING ALL ROUTES HERE
@@ -26,7 +32,23 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
+
+app.use(
+  session({
+    secret: SESSION_SECRET as string,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // TODO: DEFINING THE ROUTES
 app.use("/api/v1/auth", authRouter);
