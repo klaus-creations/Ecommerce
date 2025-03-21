@@ -1,11 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { width } from "@/constants/styles";
+import { useAuthStore } from "@/features/auth";
+import { login } from "@/features/request";
 import { signInValidations } from "@/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
+import { Button } from "./ui/button";
 
 export default function SignInComponent() {
+  const navigate = useNavigate();
+  const { setUser } = useAuthStore();
+  const queryClient = useQueryClient();
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      console.log(data);
+      toast("User LoggedIn successfully");
+      setUser(data?.data);
+      queryClient.invalidateQueries({ queryKey: ["session"] });
+      navigate("/");
+    },
+    onError: (err: any) => {
+      const errorMessage =
+        err.response?.data?.message || "An unexpected error occurred";
+      toast(errorMessage);
+    },
+  });
+
   type SignupFormType = z.infer<typeof signInValidations>;
   const {
     register,
@@ -21,7 +46,7 @@ export default function SignInComponent() {
   });
 
   const onSubmit = async function (data: SignupFormType) {
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -78,9 +103,12 @@ export default function SignInComponent() {
           Forgot Password
         </button> */}
 
-        <button className="text-base font-extrabold tracking-[1px] text-white rounded-lg px-3 py-2 bg-orange-500 uppercase cursor-pointer">
-          Sigin Up
-        </button>
+        <Button
+          disabled={isLoading}
+          className="hover:bg-orange-500/[.6] text-base font-extrabold tracking-[1px] text-white rounded-lg px-3 py-2 bg-orange-500 uppercase cursor-pointer"
+        >
+          Sigin In
+        </Button>
         <div className="flex items-center   gap-2">
           <span className="text-base font-bold tracking-[1px]">
             I dont have an Accountt{" "}
