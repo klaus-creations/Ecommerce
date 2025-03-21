@@ -1,11 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { width } from "@/constants/styles";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupValidations } from "@/validations";
 import { z } from "zod";
+import { toast } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createUser } from "@/features/request";
+import { useAuthStore } from "@/features/auth";
+import { Button } from "./ui/button";
 
 export default function SignupComponent() {
+  const { setUser } = useAuthStore();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: createUser,
+    onSuccess: (data) => {
+      console.log(data);
+      toast("User create and logged In successfully");
+      setUser(data?.data?.user);
+      queryClient.invalidateQueries({ queryKey: ["session"] });
+      navigate("/");
+    },
+    onError: (err: any) => {
+      const errorMessage =
+        err.response?.data?.message || "An unexpected error occurred";
+      toast(errorMessage);
+    },
+  });
   type SignupFormType = z.infer<typeof signupValidations>;
   const {
     register,
@@ -23,7 +48,7 @@ export default function SignupComponent() {
   });
 
   const onSubmit = async function (data: SignupFormType) {
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -109,9 +134,12 @@ export default function SignupComponent() {
           )}
         </div>
 
-        <button className="text-base font-extrabold tracking-[1px] text-white rounded-lg px-3 py-2 bg-orange-500">
+        <Button
+          disabled={isLoading}
+          className="text-base font-extrabold tracking-[1px] text-white rounded-lg px-3 py-2 bg-orange-500 hover:bg-orange-500/[.8]"
+        >
           Create Account
-        </button>
+        </Button>
         <div className="flex items-center   gap-2">
           <span className="text-base font-bold tracking-[1px]">
             I have an Account{" "}
