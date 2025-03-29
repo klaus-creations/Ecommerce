@@ -6,8 +6,6 @@ export default function AdminDashboardLayout() {
   const filteredValues = values.filter((el) => el !== "");
   const activeLocation = filteredValues[filteredValues.length - 1];
 
-  console.log(activeLocation);
-
   return (
     <div className="size-full flex flex-col text-gray-900 dark:text-gray-100">
       <div className="w-full h-[10%] flex flex-col justify-around shadow-md shadow-orange-500/[.2] px-1">
