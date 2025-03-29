@@ -11,7 +11,6 @@ import SignupPage from "./pages/SignupPage";
 import SigninPage from "./pages/SigninPage";
 import MainLayoutPage from "./pages/MainLayoutPage";
 import AuthLayoutPage from "./pages/AuthLayoutPage";
-import AdminLayout from "./components/layouts/AdminLayout";
 import Dashboard from "./components/admin/Dashboard";
 import AdminCategory from "./components/admin/AdminCategory";
 import AdminProducts from "./components/admin/AdminProducts";
@@ -23,6 +22,8 @@ import AdminRequest from "./components/admin/AdminRequest";
 import NewTestimonials from "./components/admin/NewTestimonials";
 import NewReviews from "./components/admin/NewReviews";
 import { Toaster } from "sonner";
+import PrivateRoute from "./pages/PrivateRoute";
+import Adminlayout from "./components/layouts/AdminLayout";
 
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
@@ -64,54 +65,60 @@ const browserRouter = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: <PrivateRoute />,
     children: [
       {
-        path: "dashboard",
-        element: <AdminDashboardLayout />,
+        path: "",
+        element: <Adminlayout />,
         children: [
           {
-            path: "",
-            element: <Dashboard />,
+            path: "dashboard",
+            element: <AdminDashboardLayout />,
+            children: [
+              {
+                path: "",
+                element: <Dashboard />,
+              },
+              {
+                path: "categories",
+                element: <AdminCategory />,
+              },
+              {
+                path: "products",
+                element: <AdminProducts />,
+              },
+              {
+                path: "",
+              },
+            ],
           },
           {
-            path: "categories",
-            element: <AdminCategory />,
+            path: "notifications",
+            element: <AdminNotificationLayout />,
+            children: [
+              {
+                path: "",
+                element: <Notifications />,
+              },
+              {
+                path: "admin-requests",
+                element: <AdminRequest />,
+              },
+              {
+                path: "new-testimonials",
+                element: <NewTestimonials />,
+              },
+              {
+                path: "new-reviews",
+                element: <NewReviews />,
+              },
+            ],
           },
           {
-            path: "products",
-            element: <AdminProducts />,
-          },
-          {
-            path: "",
+            path: "search",
+            element: <Search />,
           },
         ],
-      },
-      {
-        path: "notifications",
-        element: <AdminNotificationLayout />,
-        children: [
-          {
-            path: "",
-            element: <Notifications />,
-          },
-          {
-            path: "admin-requests",
-            element: <AdminRequest />,
-          },
-          {
-            path: "new-testimonials",
-            element: <NewTestimonials />,
-          },
-          {
-            path: "new-reviews",
-            element: <NewReviews />,
-          },
-        ],
-      },
-      {
-        path: "search",
-        element: <Search />,
       },
     ],
   },
