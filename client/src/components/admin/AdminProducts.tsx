@@ -145,18 +145,23 @@ const DialogC = function () {
     defaultValues: {
       name: "",
       description: "",
-      price: 0,
+      price: undefined,
       discountedPrice: undefined,
-      stock: 0,
+      stock: undefined,
       category: "",
       images: [""],
-      ratings: 0,
+      ratings: undefined,
       reviews: [],
-      likes: 0,
+      likes: undefined,
       likedBy: [],
     },
     mode: "onBlur",
   });
+
+  const onSubmit = async function () {
+    console.log("Hello world");
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -171,7 +176,10 @@ const DialogC = function () {
         <DialogHeader>
           <DialogTitle>Add New Product</DialogTitle>
         </DialogHeader>
-        <div className="w-full flex flex-col gap-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full flex flex-col gap-4"
+        >
           <div className="flex flex-col items-start">
             <input
               {...register("name")}
@@ -179,24 +187,26 @@ const DialogC = function () {
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
               placeholder="Product Name"
             />
-            {errors["name"] && (
+            {errors.name && (
               <span className="text-sm text-red-500">
-                {errors["name"]?.message}
+                {errors.name?.message}
               </span>
             )}
           </div>
+
           <div className="flex flex-col gap-2 items-start">
             <textarea
               {...register("description")}
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
               placeholder="Description"
             />
-            {errors["description"] && (
+            {errors.description && (
               <span className="text-sm text-red-500">
-                {errors["description"]?.message}
+                {errors.description?.message}
               </span>
             )}
           </div>
+
           <div className="flex flex-col gap-2 items-start">
             <input
               {...register("price")}
@@ -204,12 +214,13 @@ const DialogC = function () {
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
               placeholder="Price"
             />
-            {errors["price"] && (
+            {errors.price && (
               <span className="text-sm text-red-500">
-                {errors["price"]?.message}
+                {errors.price?.message}
               </span>
             )}
           </div>
+
           <div className="flex flex-col gap-2 items-start">
             <input
               {...register("discountedPrice")}
@@ -217,12 +228,13 @@ const DialogC = function () {
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
               placeholder="Discounted Price"
             />
-            {errors["discountedPrice"] && (
+            {errors.discountedPrice && (
               <span className="text-sm text-red-500">
-                {errors["discountedPrice"]?.message}
+                {errors.discountedPrice?.message}
               </span>
             )}
           </div>
+
           <div className="flex flex-col gap-2 items-start">
             <input
               {...register("stock")}
@@ -230,12 +242,13 @@ const DialogC = function () {
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
               placeholder="Stock"
             />
-            {errors["stock"] && (
+            {errors.stock && (
               <span className="text-sm text-red-500">
-                {errors["stock"]?.message}
+                {errors.stock?.message}
               </span>
             )}
           </div>
+
           <div className="flex flex-col gap-2 items-start">
             <input
               {...register("category")}
@@ -243,24 +256,26 @@ const DialogC = function () {
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
               placeholder="Category ID"
             />
-            {errors["category"] && (
+            {errors.category && (
               <span className="text-sm text-red-500">
-                {errors["category"]?.message}
+                {errors.category?.message}
               </span>
             )}
           </div>
+
           <div className="flex flex-col gap-2 items-start">
             <input
               {...register("images.0")}
               type="file"
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
             />
-            {errors["images"] && (
+            {errors.images && (
               <span className="text-sm text-red-500">
-                {errors["images"]?.message}
+                {errors.images?.message}
               </span>
             )}
           </div>
+
           <div className="flex flex-col gap-2 items-start">
             <input
               {...register("ratings")}
@@ -268,12 +283,13 @@ const DialogC = function () {
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
               placeholder="Ratings (0-5)"
             />
-            {errors["ratings"] && (
+            {errors.ratings && (
               <span className="text-sm text-red-500">
-                {errors["ratings"]?.message}
+                {errors.ratings?.message}
               </span>
             )}
           </div>
+
           <div className="flex flex-col gap-2 items-start">
             <input
               {...register("likes")}
@@ -281,21 +297,22 @@ const DialogC = function () {
               className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
               placeholder="Likes"
             />
-            {errors["likes"] && (
+            {errors.likes && (
               <span className="text-sm text-red-500">
-                {errors["likes"]?.message}
+                {errors.likes?.message}
               </span>
             )}
           </div>
-        </div>
-        <DialogFooter>
-          <Button
-            className="bg-orange-500 hover:bg-orange-500/[.9] text-white"
-            type="submit"
-          >
-            Save changes
-          </Button>
-        </DialogFooter>
+
+          <DialogFooter>
+            <Button
+              className="bg-orange-500 hover:bg-orange-500/[.9] text-white"
+              type="submit"
+            >
+              Save changes
+            </Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
