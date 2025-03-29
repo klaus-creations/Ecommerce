@@ -4,11 +4,11 @@ import { useTheme } from "@/features/theme";
 
 export default function MainLayoutPage() {
   const { isDarkMode } = useTheme();
-  const theme = isDarkMode;
+
   return (
     <div
       className={`${
-        theme && "dark"
+        isDarkMode && "dark"
       } w-full h-screen flex flex-col bg-slate-100 dark:bg-slate-900 overflow-hidden text-black dark:text-white`}
     >
       <HeaderComponent />
