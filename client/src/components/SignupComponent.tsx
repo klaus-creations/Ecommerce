@@ -19,7 +19,6 @@ export default function SignupComponent() {
   const { mutate, isPending: isLoading } = useMutation({
     mutationFn: createUser,
     onSuccess: (data) => {
-      console.log(data);
       toast("User create and logged In successfully");
       setUser(data?.data?.user);
       queryClient.invalidateQueries({ queryKey: ["session"] });

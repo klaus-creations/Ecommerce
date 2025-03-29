@@ -18,7 +18,6 @@ export default function SignInComponent() {
   const { mutate, isPending: isLoading } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      console.log(data);
       toast("User LoggedIn successfully");
       setUser(data?.data);
       queryClient.invalidateQueries({ queryKey: ["session"] });
