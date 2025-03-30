@@ -24,6 +24,7 @@ import NewReviews from "./components/admin/NewReviews";
 import { Toaster } from "sonner";
 import PrivateRoute from "./pages/PrivateRoute";
 import Adminlayout from "./components/layouts/AdminLayout";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
@@ -46,6 +47,10 @@ const browserRouter = createBrowserRouter([
       {
         path: "/about",
         element: <AboutPage />,
+      },
+      {
+        path: "/products/:id",
+        element: <ProductDetailPage />,
       },
     ],
   },
