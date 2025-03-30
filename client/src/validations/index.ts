@@ -63,3 +63,24 @@ export const productValidations = z.object({
   likes: z.number().min(0, "Likes cannot be negative").default(0),
   likedBy: z.array(z.string()).optional(),
 });
+
+export const addReviewValidations = z.object({
+  name: z
+    .string()
+    .nonempty("Name is required")
+    .refine(
+      (val) => val.split(",").every((name) => name.trim().length >= 3),
+      "Each name must be at least 3 characters and separated by a comma"
+    ),
+
+  rating: z
+    .number()
+    .min(1, "Rating must be at least 1")
+    .max(5, "Rating must be at most 5")
+    .nonnegative("Rating cannpt be negative"),
+
+  review: z
+    .string()
+    .min(100, "Review must be at least 100 characters")
+    .nonempty("Review is required"),
+});
