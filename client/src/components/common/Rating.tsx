@@ -5,6 +5,9 @@ interface RatingProps {
 export default function Rating({ rating }: RatingProps) {
   return (
     <div className="flex items-center gap-1 text-[#ffa600]">
+      <span className="text-gray-900 dark:text-gray-100 text-xs lg:text-base font-bold">
+        ( {rating} )
+      </span>
       {Array.from({ length: 5 }, (_, i) => {
         return (
           <div key={i}>
