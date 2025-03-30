@@ -4,6 +4,7 @@ import FaqComponent from "@/components/Home/FaqComponent";
 import FeaturedComponent from "@/components/Home/FeaturedComponent";
 import GuaranteeComponent from "@/components/Home/GuaranteeComponent";
 import HeroComponent from "@/components/Home/HeroComponent";
+import Testimonials from "@/components/Home/Testimonials";
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
       <FeaturedComponent />
       <Category />
       <Daydeals />
+      <Testimonials />
       <FaqComponent />
     </div>
   );
