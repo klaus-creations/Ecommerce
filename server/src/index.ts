@@ -13,15 +13,17 @@ import "./config/passport";
 import passport from "passport";
 import session from "express-session";
 
-import { PORT, SESSION_SECRET } from "./config/env";
-import connectDB from "./config/mongodb";
+import { PORT, SESSION_SECRET } from "./config/env.js";
+import connectDB from "./config/mongodb.js";
+
+console.log(PORT);
 
 // NOTE: IMPORTING ALL ROUTES HERE
-import authRouter from "./routes/auth.routes";
-import categoryRouter from "./routes/category.routes";
-import errorMiddleware from "./middlewares/error.middleware";
-import reviewsRouter from "./routes/reviews.routes";
-import productRoute from "./routes/product.routes";
+import authRouter from "./routes/auth.routes.js";
+import categoryRouter from "./routes/category.routes.js";
+import errorMiddleware from "./middlewares/error.middleware.js";
+import reviewsRouter from "./routes/reviews.routes.js";
+import productRoute from "./routes/product.routes.js";
 
 const app = express();
 
@@ -32,6 +34,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+
 app.use(
   cors({
     credentials: true,

@@ -4,13 +4,13 @@ import {
   isAuthenticated,
   loginUser,
   logoutUser,
-} from "../controllers/auth.controller";
+} from "../controllers/auth.controller.js";
 import {
   signInValidation,
   signupValidation,
-} from "../validations/auth.validation";
-import { handleValidationErrors } from "../middlewares/validation.middleware";
-import { authorize } from "../middlewares/authorization.middleware";
+} from "../validations/auth.validation.js";
+import { handleValidationErrors } from "../middlewares/validation.middleware.js";
+import { authorize } from "../middlewares/authorization.middleware.js";
 
 const authRouter = Router();
 

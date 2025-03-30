@@ -3,9 +3,9 @@ import {
   createCategory,
   deleteCategory,
   listCategories,
-} from "../controllers/category.controller";
-import { categoryValidation } from "../validations/category.validation";
-import { handleValidationErrors } from "../middlewares/validation.middleware";
+} from "../controllers/category.controller.js";
+import { categoryValidation } from "../validations/category.validation.js";
+import { handleValidationErrors } from "../middlewares/validation.middleware.js";
 
 const categoryRouter = Router();
 

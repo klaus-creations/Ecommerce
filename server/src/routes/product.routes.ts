@@ -4,11 +4,11 @@ import { Router } from "express";
 import {
   createProduct,
   getAllProducts,
-} from "../controllers/product.controller";
+} from "../controllers/product.controller.js";
 
 // Note: Product validations
-import { productValidation } from "../validations/product.validation";
-import { handleValidationErrors } from "../middlewares/validation.middleware";
+import { productValidation } from "../validations/product.validation.js";
+import { handleValidationErrors } from "../middlewares/validation.middleware.js";
 
 const productRoute = Router();
 

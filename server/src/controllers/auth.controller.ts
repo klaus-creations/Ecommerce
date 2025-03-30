@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
 
-import userModel from "../models/users.model";
+import userModel from "../models/users.model.js";
 import passport from "passport";
 
 export const createUser = async (

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { DB_URI } from "../config/env";
+import { DB_URI } from "../config/env.js";
 
 if (!DB_URI) {
   throw new Error("please create your database uri inside the .env");

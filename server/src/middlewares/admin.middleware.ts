@@ -13,12 +13,11 @@ export const authorize = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    if (!req.isAuthenticated()) {
-      throw new Error("un Authorized user");
+    const role = req?.user?.role;
+    if (role === "USER") {
+      throw new Error("you are not admin to do this");
     }
     next();
-    console.log("from authorization");
-    console.log(req.user);
   } catch (error) {
     next(error);
   }

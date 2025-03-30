@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import reviewModel from "../models/review.model";
-import productModel from "../models/products.model";
+import reviewModel from "../models/review.model.js";
+import productModel from "../models/products.model.js";
 
 export const addReview = async (
   req: Request,

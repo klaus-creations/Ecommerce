@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
-import productModel from "../models/products.model";
-import categoryModel from "../models/category.model";
+import productModel from "../models/products.model.js";
+import categoryModel from "../models/category.model.js";
 
 export const createProduct = async (
   req: Request,

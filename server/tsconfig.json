@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es2022", // Updated to a modern target
-    "module": "nodenext", // Use "commonjs" if not using ESM
-    "moduleResolution": "nodenext", // Use "node" if not using ESM
+    "target": "es2022",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
-    "rootDir": "./src", // Explicitly set root directory
+    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": false, // Enable library checks
-    "resolveJsonModule": true, // Only if you need to import JSON
+    "skipLibCheck": false,
+    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true, // Enable source maps for debugging
+    "sourceMap": true,
     "types": ["node"],
-    "lib": ["es2022"] // Specify the default library
+    "lib": ["es2022"]
   },
   "include": ["src/**/*", "src/data/**/*.json", "src/lib"],
-  "exclude": ["node_modules", "dist"] // Exclude "dist" to avoid recursive builds
+  "exclude": ["node_modules", "dist"]
 }

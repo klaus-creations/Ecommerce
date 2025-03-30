@@ -6,8 +6,8 @@ import {
   orderHistory,
   placeOrder,
   removeProductReview,
-} from "../controllers/user.controller";
-import { authorize } from "../middlewares/authorization.middleware";
+} from "../controllers/user.controller.js";
+import { authorize } from "../middlewares/authorization.middleware.js";
 
 const userRouter = Router();
 

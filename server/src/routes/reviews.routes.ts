@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { addReview } from "../controllers/reviews.controller";
-import { authorize } from "../middlewares/authorization.middleware";
-import { reviewValidation } from "../validations/review.validation";
-import { handleValidationErrors } from "../middlewares/validation.middleware";
+import { addReview } from "../controllers/reviews.controller.js";
+import { authorize } from "../middlewares/authorization.middleware.js";
+import { reviewValidation } from "../validations/review.validation.js";
+import { handleValidationErrors } from "../middlewares/validation.middleware.js";
 
 const reviewsRouter = Router();
 

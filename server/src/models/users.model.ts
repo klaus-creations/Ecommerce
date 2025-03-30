@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const roles = ["USER", "ADMIN"] as const;
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -23,6 +25,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "password is required field"],
       minLength: 6,
+    },
+    role: {
+      type: String,
+      enum: roles,
+      default: "USER",
     },
   },
   { timestamps: true }
