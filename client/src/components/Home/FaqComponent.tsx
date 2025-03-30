@@ -7,17 +7,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Heading from "../common/Heading";
 
 export default function FaqComponent() {
   return (
-    <div className={`${width} flex flex-col gap-10`}>
-      <h2 className="text-base lg:text-xl font-bold tracking-[1px] text-orange-500 text-center">
-        Frequently Asked Questions
-      </h2>
+    <div className={`${width} flex flex-col gap-2 items-start`}>
+      <Heading heading="Frequently Asked Questions" />
       {faqs.map((el, i) => {
         return (
           <Accordion
-            className={`${width} text-gray-50 text-xl border-[1px] border-orange-500/[.3] p-3 rounded-lg cursor-pointer shadow-lg shadow-orange-500/[.2] bg-gradient-to-br to-orange-500/[.3] from-slate-600`}
+            className={`w-full text-gray-700 dark:text-gray-500 text-xl border-[1px] border-slate-500 dark:border-slate-900 p-2 rounded-lg cursor-pointer 
+              shadow-md shadow-slate-400/[.3] dark:shadow-slate-900/[.3] mb-2 bg-orange-500/[.03]`}
             key={i}
             type="single"
             collapsible
