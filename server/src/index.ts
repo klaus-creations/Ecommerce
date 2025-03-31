@@ -65,6 +65,8 @@ app.get("/", function (req, res) {
 
 app.use(errorMiddleware);
 
+console.log("This is something for check");
+
 // CREATING THE RUNNING SERVER
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
