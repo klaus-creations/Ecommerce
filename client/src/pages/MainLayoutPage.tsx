@@ -10,10 +10,10 @@ export default function MainLayoutPage() {
     <div
       className={`${
         isDarkMode && "dark"
-      } w-full h-screen flex flex-col bg-slate-100 dark:bg-slate-900 overflow-hidden text-black dark:text-white`}
+      } w-full h-screen  flex flex-col dark:bg-zinc-900 overflow-y-hidden scroll- text-black dark:text-white`}
     >
       <HeaderComponent />
-      <main className="w-full h-[85%] bg-slate-50 dark:bg-slate-800 overflow-y-auto">
+      <main className="w-full h-[85%] bg-slate-50 dark:bg-zinc-900 overflow-y-auto">
         {<Outlet />}
         <Footer />
       </main>
