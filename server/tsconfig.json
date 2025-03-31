@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2022",
+    "target": "es2016",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "outDir": "./dist",
@@ -12,7 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "types": ["node"],
-    "lib": ["es2022"]
+    "lib": ["ES2022"]
   },
   "include": ["src/**/*", "src/data/**/*.json", "src/lib"],
   "exclude": ["node_modules", "dist"]
