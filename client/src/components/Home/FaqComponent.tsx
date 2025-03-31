@@ -11,13 +11,14 @@ import Heading from "../common/Heading";
 
 export default function FaqComponent() {
   return (
-    <div className={`${width} flex flex-col gap-2 items-start`}>
+    <div
+      className={`${width} flex flex-col gap-4 items-start bg-slate-300/[.2] dark:bg-slate-900/[.2] p-2 lg:p-4`}
+    >
       <Heading heading="Frequently Asked Questions" />
       {faqs.map((el, i) => {
         return (
           <Accordion
-            className={`w-full text-gray-700 dark:text-gray-500 text-xl border-[1px] border-slate-500 dark:border-slate-900 p-2 rounded-lg cursor-pointer 
-              shadow-md shadow-slate-400/[.3] dark:shadow-slate-900/[.3] mb-2 bg-orange-500/[.03]`}
+            className={`w-full text-gray-50 text-xl  p-2 rounded-md cursor-pointer mb-2 bg-secondary`}
             key={i}
             type="single"
             collapsible

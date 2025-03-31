@@ -10,6 +10,7 @@ import {
 import { width } from "@/constants/styles";
 import Heading from "../common/Heading";
 import { Quote } from "lucide-react";
+import Rating from "../common/Rating";
 
 const testimonials = [
   {
@@ -66,31 +67,42 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <div className={`${width} flex flex-col items-start gap-2`}>
+    <section
+      className={`${width} flex flex-col items-center gap-4 bg-slate-300/[.5] dark:bg-slate-900/[.5] p-2 lg:p-4`}
+    >
       <Heading heading="People About Our Products" />
-      <Carousel className="w-full relative">
+      <h3 className="text-2xl lg:text-3xl font-bold tracking-[1px] text-gray-950 dark:text-gray-50">
+        Testimonials from Our{" "}
+        <strong className="text-primary">Customers</strong> On Our Services and
+        Products
+      </h3>
+      <Carousel className="w-[100%] md:w-[90%] lg:w-[75%] 2xl:w-[60%] relative">
         <CarouselContent>
           {testimonials.map((el, index) => (
             <CarouselItem key={index} className="relative shadow-md">
               <Quote className="size-12 lg:size-6 absolute top-4 left-6 lg:left-10 text-gray-950 dark:text-gray-100 z-[1000]" />
               <div className="p-1">
-                <Card className="bg-slate-300 dark:bg-slate-900">
-                  <CardContent className="flex flex-col gap-2 items-start  between p-6 pt-10">
-                    <p className="text-base lg:text-xl font-semibold">
+                <Card className="shadow-md shadow-orange-500/[.4] bg-transparent">
+                  <CardContent className="flex flex-col gap-2 items-center  between p-6 pt-10">
+                    <p className="text-base lg:text-xl font-light">
                       {el.testimonial}
                     </p>
-                    <span className="text-gray-700 dark:text-gray-400">
-                      {el.name}
-                    </span>
+
+                    <div className="flex flex-col items-center gap-3">
+                      <span className="text-gray-700 dark:text-gray-400">
+                        {el.name}
+                      </span>
+                      <Rating rating={5} />
+                    </div>
                   </CardContent>
                 </Card>
               </div>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="bg-secondary dark:bg-secondary text-white hover:bg-secondary dark:hover:bg-secondary" />
+        <CarouselNext className="bg-secondary dark:bg-secondary text-white hover:bg-secondary dark:hover:bg-secondary" />
       </Carousel>
-    </div>
+    </section>
   );
 }

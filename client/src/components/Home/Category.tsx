@@ -118,14 +118,7 @@ const CategoryFilter = function () {
     <div className="w-full flex items-center py-2 px-4 overflow-x-auto gap-3">
       {exampleFilters.map(function (el, i) {
         return (
-          <Button
-            className={`px-4 py-2 border-[1px] border-orange-500/[.4] rounded-md shrink-0 font-bold tracking-[1px] ${
-              i === 0
-                ? "bg-slate-400 hover:bg-slate-600 dark:bg-slate-950/[.9] text-gray-50"
-                : "bg-slate-200 dark:bg-slate-950/[.2] text-gray-950 dark:text-gray-200"
-            }   hover:bg-slate-300 hover:dark:bg-slate-950/[.3]`}
-            key={i}
-          >
+          <Button variant={i == 0 ? "default" : "outline"} key={i}>
             {el.category}
           </Button>
         );
@@ -142,7 +135,7 @@ const CategoryProducts = function () {
           <ProductComponent
             showAddTocart={false}
             wrap={true}
-            name={`${i + 1}.jpg`}
+            name={`${i + 30}.jpg`}
             key={i}
           />
         );
