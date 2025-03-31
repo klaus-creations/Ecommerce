@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { width } from "@/constants/styles";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addReviewValidations } from "@/validations";
 import { z } from "zod";
@@ -32,7 +30,6 @@ export default function AddReview() {
   } = useForm<SignupFormType>({
     resolver: zodResolver(addReviewValidations),
     defaultValues: {
-      name: "",
       rating: 0,
       review: "",
     },
@@ -55,29 +52,13 @@ export default function AddReview() {
         <h1 className="text-base lg:text-xl font-bold border-b-[1px] border-b-orange-500 pb-2">
           Add Review
         </h1>
-        <div className="w-[90%] flex flex-col ml-3 items-start gap-1">
-          <label className="text-base lg:font-bold tracking-[1px]">Name</label>
-          <input
-            id="name"
-            placeholder="Full Name"
-            {...register("name")}
-            type="text"
-            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] rounded-md border-slate-600 "
-          />
-
-          {errors["name"] && (
-            <span className="text-sm text-red-500">
-              {errors["name"]?.message}
-            </span>
-          )}
-        </div>
 
         <div className="w-[90%] flex flex-col ml-3 items-start gap-1">
           <label className="text-base lg:font-bold tracking-[1px]">
             Rating (out of 5)
           </label>
           <input
-            id="email"
+            id="rating"
             placeholder="0"
             {...register("rating")}
             type="text"
@@ -94,7 +75,7 @@ export default function AddReview() {
 
         <div className="w-[90%] flex flex-col ml-3 items-start gap-1">
           <label className="text-base lg:font-bold tracking-[1px]">
-            Password
+            Review
           </label>
           <textarea
             id="password"
@@ -114,7 +95,7 @@ export default function AddReview() {
           disabled={isLoading}
           className="text-base font-extrabold tracking-[1px] text-white rounded-lg px-3 py-2 bg-orange-500 hover:bg-orange-500/[.8]"
         >
-          Create Account
+          Add Review
         </Button>
       </form>
     </div>
