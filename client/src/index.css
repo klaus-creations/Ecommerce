@@ -47,17 +47,24 @@ button {
   --sidebar-accent-foreground: hsl(240 5.9% 10%);
   --sidebar-border: hsl(220 13% 91%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  --text-color-1: ##030712;
+  --text-color-2: #101828;
+  --text-color-3: #1e2939;
+  --text-color-4: #364153;
+  --text-color-5: ##6a7282;
 }
 
 .dark {
   --background: hsl(240 10% 3.9%);
+
   --foreground: hsl(0 0% 98%);
   --card: hsl(240 10% 3.9%);
   --card-foreground: hsl(0 0% 98%);
   --popover: hsl(240 10% 3.9%);
   --popover-foreground: hsl(0 0% 98%);
   --primary: hsl(0 0% 98%);
-  --primary-foreground: hsl(240 5.9% 10%);
+  --primary-foreground: hsl(0 0% 98%);
   --secondary: hsl(240 3.7% 15.9%);
   --secondary-foreground: hsl(0 0% 98%);
   --muted: hsl(240 3.7% 15.9%);
@@ -82,18 +89,24 @@ button {
   --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
   --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  --text-color-1: #f9fafb;
+  --text-color-2: #f3f4f6;
+  --text-color-3: #e5e7eb;
+  --text-color-4: #d1d5dc;
+  --text-color-5: ##6a7282;
 }
 
 @theme inline {
+  --color-primary: #0989ff;
+  --color-secondary: #115061;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
@@ -121,6 +134,12 @@ button {
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
+
+  --color-text1: var(--text-color-1);
+  --color-text2: var(--text-color-2);
+  --color-text3: var(--text-color-3);
+  --color-text4: var(--text-color-4);
+  --color-text5: var(--text-color-5);
 }
 
 @layer base {
