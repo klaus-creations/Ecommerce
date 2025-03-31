@@ -1,9 +1,7 @@
 import multer, { StorageEngine, FileFilterCallback } from "multer";
-import path from "path";
-import { fileURLToPath } from "url";
+import path = require("path");
 import { Request } from "express";
 
-const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const storage: StorageEngine = multer.diskStorage({
