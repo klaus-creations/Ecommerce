@@ -65,14 +65,6 @@ export const productValidations = z.object({
 });
 
 export const addReviewValidations = z.object({
-  name: z
-    .string()
-    .nonempty("Name is required")
-    .refine(
-      (val) => val.split(",").every((name) => name.trim().length >= 3),
-      "Each name must be at least 3 characters and separated by a comma"
-    ),
-
   rating: z
     .number()
     .min(1, "Rating must be at least 1")
