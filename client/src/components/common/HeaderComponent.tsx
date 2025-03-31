@@ -16,13 +16,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
+import { navbarLinks } from "@/constants/navbar-links";
 
 export default function HeaderComponent() {
   const { isDarkMode, setTheme } = useTheme();
@@ -31,25 +31,26 @@ export default function HeaderComponent() {
   const theme = isDarkMode;
 
   return (
-    <header className="w-full flex flex-col border-b-[1px] h-[15%] bg-slate-100 dark:bg-slate-900 border-gray-900/[.5] dark:bg-border-gray-200 dark:text-white text-black">
+    <header className="w-full flex flex-col border-b-[1px] h-[15%] bg-slate-100 dark:bg-zinc-950/96 border-gray-900/[.5] dark:bg-border-gray-200 dark:text-white text-black">
       <div
         className={`${width} flex items-center justify-between h-[50%] border-b-[1px] border-gray-900/[.2] 
       dark:border-gray-200/[.2]`}
       >
         <Link
           to={"/"}
-          className="text-base lg:text-xl font-bold first-letter:text-2xl lg:first-letter:text-3xl first-letter:font-extrabold text-orange-500"
+          className="text-base lg:text-xl font-bold first-letter:text-2xl lg:first-letter:text-3xl first-letter:font-extrabold text-primary"
         >
           Gebeya
         </Link>
 
         <nav className="lg:flex items-center gap-3 hidden">
-          <Link to={"/about"} className="size-7 mr-4">
-            About
-          </Link>
-          <Link to={"/contact"} className="size-7">
-            Contact
-          </Link>
+          {navbarLinks.map((el, i) => {
+            return (
+              <Link key={i} to={el.link} className="">
+                {el.name}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -79,18 +80,12 @@ export default function HeaderComponent() {
               />
             ) : (
               <div className="hidden lg:flex items-center gap-2">
-                <Link
-                  to="/auth/signin"
-                  className="text-base tracking-[1px] bg-orange-500 py-1 px-2 rounded-md text-white"
-                >
-                  Login
+                <Link to="/auth/signin">
+                  <Button>Login</Button>
                 </Link>
 
-                <Link
-                  to="/auth/signin"
-                  className="text-base tracking-[1px] border-[1px] border-orange-500/[.5] py-1 px-2 rounded-md"
-                >
-                  Sign Up
+                <Link to="/auth/signin">
+                  <Button variant={"outline"}>Sign Up</Button>
                 </Link>
               </div>
             )}
@@ -120,10 +115,10 @@ const SearchComponent = function () {
       <input
         type="text"
         placeholder="Search products"
-        className="w-full h-full outline-none border-[1px] border-orange-500/[.4] rounded-4 bg-black/[.1] pl-8 pr-10 rounded-lg"
+        className="w-full h-full outline-none border-[1px] border-secondary rounded-4 bg-black/[.1] pl-8 pr-10 rounded-lg"
       />
 
-      <button className="text-base bg-orange-500/[.7] tracking-[1px] flex items-center gap-1 px-2 py-1 rounded-md text-white absolute top-[50%] -translate-y-[50%] right-2">
+      <button className="text-base bg-secondary tracking-[1px] flex items-center gap-1 px-2 py-1 rounded-md text-white absolute top-[50%] -translate-y-[50%] right-2">
         <span>Search</span>
         {/* <SearchIcon className="text-white size-5" /> */}
       </button>
