@@ -26,6 +26,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Customers from "./components/admin/Customers";
+import BlogPage from "./pages/BlogPage";
 
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
@@ -64,7 +65,7 @@ const browserRouter = createBrowserRouter([
       },
       {
         path: "/blogs",
-        element: <></>,
+        element: <BlogPage />,
       },
     ],
   },
