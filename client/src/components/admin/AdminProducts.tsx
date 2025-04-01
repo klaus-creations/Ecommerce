@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PenLine, Trash2 } from "lucide-react";
+import { Plus, SearchIcon } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -32,19 +32,29 @@ import { productValidations } from "@/validations";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Heading from "../common/Heading";
 
 export default function AdminProducts() {
   return (
-    <div className="size-full flex flex-col gap-2">
-      <h3 className="text-base lg:text-xl font-extrabold">Products List</h3>
-      <div className="w-full flex items-center justify-between">
-        <div className="w-[70%] md:w-[80%] xl:w-[90%] flex items-center justify-between">
-          <div className="flex flex-col items-start">
-            <span className="text-xs lg:text-base font-bold tracking-[1px] text-gray-600 dark:text-gray-400">
-              Categories
-            </span>
+    <section className="size-full flex flex-col justify-evenly  gap-2">
+      <div className="w-full h-[20%] lg:h-[15%] 2xl:h-[13%] flex justify-around flex-col">
+        <div className="w-full flex justify-between items-center">
+          <Heading heading="Products List" />
+          <DialogC />
+        </div>
+
+        <div className="w-full flex items-center  overflow-auto gap-3">
+          <form className="h-10 w-56 lg:w-72 relative shrink-0">
+            <Input
+              className="size-full outline-none pl-8 text-text2 border-secondary"
+              placeholder="Search from cart..."
+            />
+
+            <SearchIcon className="size-4 lg:size-5 text-gray-600 dark:text-gray-400 absolute top-[50%] left-2 -translate-y-[50%]" />
+          </form>
+          <div className="flex flex-col items-start shrink-0">
             <Select>
-              <SelectTrigger className="w-[180px] border-[1px] bg-orange-500/[.2] dark:bg-orange-500/[.1]">
+              <SelectTrigger className="w-[180px] border-[1px] px-2 border-secondary h-10">
                 <SelectValue placeholder="Theme" />
               </SelectTrigger>
               <SelectContent>
@@ -55,84 +65,61 @@ export default function AdminProducts() {
             </Select>
           </div>
         </div>
-        <DialogC />
-        {/* <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant="outline"
-              className="bg-orange-500 text-white hover:bg-orange-500/[.8]"
-            >
-              Add Product
-            </Button>
-          </DialogTrigger>
-        </Dialog> */}
       </div>
-      <Table className="size-full border-[1px] border-orange-500/[.5]">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">No.</TableHead>
-            <TableHead>Image</TableHead>
-            <TableHead>Product Name</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Price</TableHead>
-            <TableHead>Stock</TableHead>
-            <TableHead>Likes</TableHead>
-            <TableHead>Reviews</TableHead>
-            <TableHead className="text-right flex items-center">
-              Actions
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow className="">
-            <TableCell className="font-medium">1</TableCell>
-            <TableCell>
-              <img
-                className="size-14"
-                src="/shoe1.png"
-                alt="small for admin product list"
-              />
-            </TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Men's Fashion</TableCell>
-            <TableCell>6788</TableCell>
-            <TableCell>20</TableCell>
-            <TableCell>356</TableCell>
-            <TableCell>4</TableCell>
-            <TableCell className="text-right flex items-center pt-6 gap-2">
-              <button className="bg-red-600 px-2 py-1 flex items-center gap1 text-white rounded-sm">
-                <span className="text-sm lg:text-xs font-bold tracking-[1px]">
-                  Delete
-                </span>
-                <Trash2 className="size-4" />
-              </button>
-              <button className="border-[1px] border-orange-500 px-2 py-1 flex items-center gap-1 rounded-sm">
-                <span className="text-sm lg:text-xs font-bold tracking-[1px]">
-                  update
-                </span>
-                <PenLine className="size-4" />
-              </button>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-      {/* <Dialog /> */}
-    </div>
+
+      <div className="size-full h-[80%] lg:h-[85%] 2xl:h-[87%] overflow-y-auto">
+        <TableRowC />
+      </div>
+    </section>
   );
 }
 
-interface ITableRow {
-  number: number;
-  image: string;
-  name: string;
-  category: string;
-  price: number;
-  stock: number;
-  likes: number;
-  reviews: number;
-}
-
-const TableRowC = function () {};
+const TableRowC = function () {
+  return (
+    <Table className="size-full border-[1px] border-secondary relative">
+      <TableHeader className="w-full">
+        <TableRow>
+          <TableHead className="w-[100px]">No.</TableHead>
+          <TableHead>Image</TableHead>
+          <TableHead>Product Name</TableHead>
+          <TableHead>Category</TableHead>
+          <TableHead>Price</TableHead>
+          <TableHead>Stock</TableHead>
+          <TableHead>Likes</TableHead>
+          <TableHead>Reviews</TableHead>
+          <TableHead className="text-right flex items-center">
+            Actions
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      {Array.from({ length: 20 }, (_, i) => {
+        return (
+          <TableBody key={i}>
+            <TableRow className="">
+              <TableCell className="font-medium">{i + 1}</TableCell>
+              <TableCell>
+                <img
+                  className="size-14"
+                  src={`/${i + 20}.jpg`}
+                  alt="small for admin product list"
+                />
+              </TableCell>
+              <TableCell>Paid</TableCell>
+              <TableCell>Men's Fashion</TableCell>
+              <TableCell>6788</TableCell>
+              <TableCell>20</TableCell>
+              <TableCell>356</TableCell>
+              <TableCell>4</TableCell>
+              <TableCell className="text-right flex items-center pt-6 gap-2">
+                ...
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        );
+      })}
+    </Table>
+  );
+};
 
 const DialogC = function () {
   type SignupFormType = z.infer<typeof productValidations>;
@@ -164,12 +151,10 @@ const DialogC = function () {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="bg-orange-500 text-white hover:bg-orange-500/[.8] hover:text-white outline-none"
-        >
-          Add Product
+      <DialogTrigger className="shrink-0" asChild>
+        <Button className="flex items-center gap-1 text-xs lg:text-base px-2 py-1 lg:px-3 lg:py-2">
+          <span>Product</span>
+          <Plus className="text-gray-50 size-4 lg:size-5" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -184,7 +169,7 @@ const DialogC = function () {
             <input
               {...register("name")}
               type="text"
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
               placeholder="Product Name"
             />
             {errors.name && (
@@ -197,7 +182,7 @@ const DialogC = function () {
           <div className="flex flex-col gap-2 items-start">
             <textarea
               {...register("description")}
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
               placeholder="Description"
             />
             {errors.description && (
@@ -211,7 +196,7 @@ const DialogC = function () {
             <input
               {...register("price")}
               type="number"
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
               placeholder="Price"
             />
             {errors.price && (
@@ -225,7 +210,7 @@ const DialogC = function () {
             <input
               {...register("discountedPrice")}
               type="number"
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
               placeholder="Discounted Price"
             />
             {errors.discountedPrice && (
@@ -239,7 +224,7 @@ const DialogC = function () {
             <input
               {...register("stock")}
               type="number"
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
               placeholder="Stock"
             />
             {errors.stock && (
@@ -253,7 +238,7 @@ const DialogC = function () {
             <input
               {...register("category")}
               type="text"
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
               placeholder="Category ID"
             />
             {errors.category && (
@@ -267,7 +252,7 @@ const DialogC = function () {
             <input
               {...register("images.0")}
               type="file"
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
             />
             {errors.images && (
               <span className="text-sm text-red-500">
@@ -280,7 +265,7 @@ const DialogC = function () {
             <input
               {...register("ratings")}
               type="number"
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
               placeholder="Ratings (0-5)"
             />
             {errors.ratings && (
@@ -294,7 +279,7 @@ const DialogC = function () {
             <input
               {...register("likes")}
               type="number"
-              className="w-full border-[1px] border-orange-500/[.5] shadow-md shadow-orange-500/[.1] rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
               placeholder="Likes"
             />
             {errors.likes && (
@@ -305,12 +290,7 @@ const DialogC = function () {
           </div>
 
           <DialogFooter>
-            <Button
-              className="bg-orange-500 hover:bg-orange-500/[.9] text-white"
-              type="submit"
-            >
-              Save changes
-            </Button>
+            <Button>Add Product</Button>
           </DialogFooter>
         </form>
       </DialogContent>
