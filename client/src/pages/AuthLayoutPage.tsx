@@ -8,7 +8,7 @@ export default function AuthLayoutPage() {
     <div className={`${isDarkMode && "dark"} w-full min-h-screen relative`}>
       <AuthHeaderComponent />
       <div
-        className="w-full h-full bg-slate-100 dark:bg-slate-900 overflow-hidden text-black
+        className="w-full h-full bg-slate-50 dark:bg-zinc-950 overflow-hidden text-black
        dark:text-white"
       >
         <Outlet />
