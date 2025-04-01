@@ -1,23 +1,25 @@
 import { SearchIcon } from "lucide-react";
+import { Button } from "../ui/button";
 
 export default function Search() {
   return (
     <div className="size-full text-gray-800 dark:text-gray-100">
-      <div className="w-full h-[10%] flex gap-3 shadow-md shadow-orange-500/[.2] flex-col items-start md:items-center md:flex-row pl-2 rounded-md">
+      <div className="w-full h-[10%] flex gap-3 shadow-md  flex-col items-start rounded-md">
         <button>products</button>
-        <form className="w-[95%] sm:w-[90%] md:w-[80%] xl:w-[60%] 2xl:w-[40%] h-[40%] rounded-lg relative">
+        <form className="w-[95%] lg:w-[60%] 2xl:w-[40%] h-12 relative">
+          <SearchIcon className="absolute top-[50%] -translate-y-[50%] left-2 text-gray-700 dark:text-gray-400 size-5" />
           <input
             type="text"
-            placeholder="Search here . . ."
-            className="size-full outline-none border-[1px] border-orange-500/[.5] rounded-lg pl-2 pr-32"
+            placeholder="Search products"
+            className="w-full h-full outline-none border-[1px] border-secondary rounded-4 pl-8 pr-10 rounded-lg"
           />
-          <button
-            type="button"
-            className="flex items-center gap-1 bg-orange-500 text-gray-100 absolute top-[50%] -translate-y-[50%] right-1 px-1 rounded-md"
+
+          <Button
+            type="submit"
+            className="absolute top-[50%] -translate-y-[50%] right-0"
           >
-            <span className="text-xs lg:text-base font-bold">Search</span>
-            <SearchIcon className="size-4" />
-          </button>
+            Search
+          </Button>
         </form>
       </div>
 
