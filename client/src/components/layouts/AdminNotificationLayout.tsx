@@ -8,8 +8,8 @@ export default function AdminNotificationLayout() {
 
   return (
     <div className="size-full flex flex-col text-gray-900 dark:text-gray-100">
-      <div className="w-full h-[10%] flex flex-col justify-around shadow-md shadow-orange-500/[.2] px-1">
-        <h2 className="text-xl lg:text-2xl font-bold tracking-[1px] text-orange-500">
+      <div className="w-full h-[10%] flex flex-col justify-around shadow-md px-1">
+        <h2 className="text-xl lg:text-2xl font-bold tracking-[1px] text-primary">
           Notifications
         </h2>
 
@@ -18,7 +18,7 @@ export default function AdminNotificationLayout() {
             to={"/admin/notifications/"}
             className={
               activeLocation === "notifications"
-                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-orange-500"
+                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-secondary"
                 : "text-sm lg:text-base font-bold text-gray-800 dark:text-gray-200 px-3 "
             }
           >
@@ -29,7 +29,7 @@ export default function AdminNotificationLayout() {
             to={"/admin/notifications/admin-requests"}
             className={
               activeLocation === "admin-requests"
-                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-orange-500"
+                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-secondary"
                 : "text-sm lg:text-base font-bold text-gray-800 dark:text-gray-200 px-3 "
             }
           >
@@ -40,7 +40,7 @@ export default function AdminNotificationLayout() {
             to={"/admin/notifications/new-testimonials"}
             className={
               activeLocation === "new-testimonials"
-                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-orange-500"
+                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-secondary"
                 : "text-sm lg:text-base font-bold text-gray-800 dark:text-gray-200 px-3 "
             }
           >
@@ -51,7 +51,7 @@ export default function AdminNotificationLayout() {
             to={"/admin/notifications/new-reviews"}
             className={
               activeLocation === "new-reviews"
-                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-orange-500"
+                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-secondary"
                 : "text-sm lg:text-base font-bold text-gray-800 dark:text-gray-200 px-3 "
             }
           >
