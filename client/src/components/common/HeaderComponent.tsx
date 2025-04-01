@@ -62,14 +62,14 @@ export default function HeaderComponent() {
               onClick={() => setTheme(false)}
               className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md"
             >
-              <Moon className="text-orange-500 size-6" />
+              <Moon className="text-secondary size-6" />
             </button>
           ) : (
             <button
               onClick={() => setTheme(true)}
               className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md"
             >
-              <SunMoon className="text-orange-500 size-6" />
+              <SunMoon className="text-secondary size-6" />
             </button>
           )}
           <>
@@ -115,7 +115,7 @@ const SearchComponent = function () {
       <input
         type="text"
         placeholder="Search products"
-        className="w-full h-full outline-none border-[1px] border-secondary rounded-4 bg-black/[.1] pl-8 pr-10 rounded-lg"
+        className="w-full h-full outline-none border-[1px] border-secondary rounded-4 pl-8 pr-10 rounded-lg"
       />
 
       <button className="text-base bg-secondary tracking-[1px] flex items-center gap-1 px-2 py-1 rounded-md text-white absolute top-[50%] -translate-y-[50%] right-2">
