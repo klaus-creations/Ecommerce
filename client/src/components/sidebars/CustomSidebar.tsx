@@ -28,7 +28,7 @@ const items = [
   },
   {
     title: "Customers",
-    url: "#",
+    url: "/admin/customers",
     icon: Users,
   },
   {
@@ -48,11 +48,11 @@ export default function CustomSidebar() {
   return (
     <>
       <Sidebar>
-        <SidebarContent className="flex flex-col items-center bg-slate-200 dark:bg-slate-900">
+        <SidebarContent className="flex flex-col items-center bg-slate-200 dark:bg-zinc-950">
           <SidebarHeader>
             <Link
               to={"/"}
-              className="text-base lg:text-xl font-bold first-letter:text-2xl lg:first-letter:text-3xl first-letter:font-extrabold text-orange-500"
+              className="text-base lg:text-xl font-bold first-letter:text-2xl lg:first-letter:text-3xl first-letter:font-extrabold text-primary"
             >
               Gebeya
             </Link>
@@ -80,14 +80,14 @@ export default function CustomSidebar() {
                 onClick={() => setTheme(false)}
                 className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md"
               >
-                <Moon className="text-orange-500 size-8 lg:size-10" />
+                <Moon className="text-secondary size-6 lg:size-8" />
               </button>
             ) : (
               <button
                 onClick={() => setTheme(true)}
                 className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-md"
               >
-                <SunMoon className="text-orange-500 size-8 lg:size-10" />
+                <SunMoon className="text-secondary size-6 lg:size-8" />
               </button>
             )}
           </SidebarFooter>
