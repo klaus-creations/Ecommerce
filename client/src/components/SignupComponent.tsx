@@ -67,7 +67,7 @@ export default function SignupComponent() {
             {...register("name")}
             type="text"
             className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-orange-500/[.3] rounded-lg shadow-sm shadow-orange-500/[.4] "
+            border-secondary rounded-lg shadow-sm  "
           />
 
           {errors["name"] && (
@@ -85,7 +85,7 @@ export default function SignupComponent() {
             {...register("email")}
             type="email"
             className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-orange-500/[.3] rounded-lg shadow-sm shadow-orange-500/[.4] "
+            border-secondary rounded-lg shadow-sm  "
           />
 
           {errors["email"] && (
@@ -105,7 +105,7 @@ export default function SignupComponent() {
             {...register("password")}
             type="password"
             className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-orange-500/[.3] rounded-lg shadow-sm shadow-orange-500/[.4] "
+            border-secondary rounded-lg shadow-sm  "
           />
           {errors["password"] && (
             <span className="text-sm text-red-500">
@@ -124,7 +124,7 @@ export default function SignupComponent() {
             {...register("confirmPassword")}
             type="password"
             className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-orange-500/[.3] rounded-lg shadow-sm shadow-orange-500/[.4] "
+            border-secondary rounded-lg shadow-sm  "
           />
           {errors["confirmPassword"] && (
             <span className="text-sm text-red-500">
@@ -133,10 +133,7 @@ export default function SignupComponent() {
           )}
         </div>
 
-        <Button
-          disabled={isLoading}
-          className="text-base font-extrabold tracking-[1px] text-white rounded-lg px-3 py-2 bg-orange-500 hover:bg-orange-500/[.8]"
-        >
+        <Button disabled={isLoading} type="submit">
           Create Account
         </Button>
         <div className="flex items-center   gap-2">
@@ -145,7 +142,7 @@ export default function SignupComponent() {
           </span>
           <Link
             to={"/auth/signin"}
-            className="text-base font-bold tracking-[1px] text-orange-500 "
+            className="text-base font-bold tracking-[1px] text-primary "
           >
             Sign In
           </Link>
