@@ -82,7 +82,7 @@ export default function Testimonials() {
             <CarouselItem key={index} className="relative shadow-md">
               <Quote className="size-12 lg:size-6 absolute top-4 left-6 lg:left-10 text-gray-950 dark:text-gray-100 z-[1000]" />
               <div className="p-1">
-                <Card className="shadow-md shadow-orange-500/[.4] bg-transparent">
+                <Card className="shadow-md bg-transparent">
                   <CardContent className="flex flex-col gap-2 items-center  between p-6 pt-10">
                     <p className="text-base lg:text-xl font-light">
                       {el.testimonial}
