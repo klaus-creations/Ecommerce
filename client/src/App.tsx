@@ -1,5 +1,3 @@
-// import store from "./features/store";
-// import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 //NOTE: IMPORTING EVERY PAGE ROUTES HERE
@@ -27,6 +25,7 @@ import Adminlayout from "./components/layouts/AdminLayout";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import Customers from "./components/admin/Customers";
 
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
@@ -107,9 +106,6 @@ const browserRouter = createBrowserRouter([
                 path: "products",
                 element: <AdminProducts />,
               },
-              {
-                path: "",
-              },
             ],
           },
           {
@@ -137,6 +133,10 @@ const browserRouter = createBrowserRouter([
           {
             path: "search",
             element: <Search />,
+          },
+          {
+            path: "customers",
+            element: <Customers />,
           },
         ],
       },
