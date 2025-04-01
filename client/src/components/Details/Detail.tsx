@@ -75,7 +75,7 @@ const ProductDetails = function () {
             )}
           </Button>
 
-          <Button className="bg-orange-500 hover:bg-orange-600 text-gray-100 tracking-[1px] flex items-center gap-2">
+          <Button>
             <span>Add To Cart</span>
             <ShoppingCart className="size-5 lg:size-7" />
           </Button>
