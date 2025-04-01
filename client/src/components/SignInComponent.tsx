@@ -65,8 +65,7 @@ export default function SignInComponent() {
             placeholder="Email Address"
             {...register("email")}
             type="email"
-            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-orange-500/[.3] rounded-lg shadow-sm shadow-orange-500/[.4] "
+            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] border-secondary/90 rounded-lg shadow-sm  "
           />
 
           {errors["email"] && (
@@ -85,8 +84,7 @@ export default function SignInComponent() {
             placeholder="Password"
             {...register("password")}
             type="password"
-            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-orange-500/[.3] rounded-lg shadow-sm shadow-orange-500/[.4] "
+            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] border-secondary/90 rounded-lg shadow-sm  "
           />
           {errors["password"] && (
             <span className="text-sm text-red-500">
@@ -102,10 +100,7 @@ export default function SignInComponent() {
           Forgot Password
         </button> */}
 
-        <Button
-          disabled={isLoading}
-          className="hover:bg-orange-500/[.6] text-base font-extrabold tracking-[1px] text-white rounded-lg px-3 py-2 bg-orange-500 uppercase cursor-pointer"
-        >
+        <Button disabled={isLoading} type="submit">
           Sigin In
         </Button>
         <div className="flex items-center   gap-2">
@@ -114,7 +109,7 @@ export default function SignInComponent() {
           </span>
           <Link
             to={"/auth/signup"}
-            className="text-base font-bold tracking-[1px] text-orange-500 "
+            className="text-base font-bold tracking-[1px] text-primary "
           >
             Sign up
           </Link>
