@@ -23,34 +23,32 @@ import { Input } from "../ui/input";
 
 export default function CartTable() {
   return (
-    <div className="size-full flex flex-col items-start gap-2">
+    <div className="size-full flex flex-col items-start gap-4">
       <div className="w-full flex flex-col items-start gap-2">
         <div className="w-full flex items-center gap-3 overflow-x-auto">
           <form className="h-10 w-56 lg:w-72 relative shrink-0">
             <Input
-              className="size-full outline-none pl-8 border-slate-400 dark:bg-slate-800 focus:shadow-none shrink-0 text-gray-800 dark:text-gray-200 "
+              className="size-full outline-none pl-8 text-text2 border-secondary"
               placeholder="Search from cart..."
             />
 
             <SearchIcon className="size-4 lg:size-5 text-gray-600 dark:text-gray-400 absolute top-[50%] left-2 -translate-y-[50%]" />
           </form>
           <Select>
-            <SelectTrigger className="w-[180px] border-[1px] border-slate-400 dark:border-slate-600 h-10 shrink-0 px-2">
+            <SelectTrigger className="w-[180px] border-[1px] border-secondary h-10 shrink-0 px-2">
               <SelectValue
-                className="text-gray-800 dark:text-gray-200"
+                className=" text-white"
                 placeholder="All Categories"
               />
             </SelectTrigger>
-            <SelectContent className="text-gray-800 dark:text-gray-200">
+            <SelectContent className=" text-white">
               <SelectItem value="all">All Categories</SelectItem>
               <SelectItem value="dark">Dark</SelectItem>
               <SelectItem value="system">System</SelectItem>
             </SelectContent>
           </Select>
         </div>
-        <Button className="bg-orange-400 hover:bg-orange-500 text-white text-sm lg:text-base">
-          Clear Cart
-        </Button>
+        {/* <Button>Clear Cart</Button> */}
       </div>
       <Table className="size-full border-[1px] border-slate-400 dark:border-slate-700 text-gray-700 dark:text-gray-400">
         <TableHeader>
