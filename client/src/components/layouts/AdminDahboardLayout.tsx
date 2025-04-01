@@ -8,8 +8,8 @@ export default function AdminDashboardLayout() {
 
   return (
     <div className="size-full flex flex-col text-gray-900 dark:text-gray-100">
-      <div className="w-full h-[10%] flex flex-col justify-around shadow-md shadow-orange-500/[.2] px-1">
-        <h2 className="text-xl lg:text-2xl font-bold tracking-[1px] text-orange-500">
+      <div className="w-full h-[10%] flex flex-col justify-around shadow-md px-1">
+        <h2 className="text-xl lg:text-2xl font-bold tracking-[1px] text-primary">
           Dashboard
         </h2>
 
@@ -18,7 +18,7 @@ export default function AdminDashboardLayout() {
             to={"/admin/dashboard"}
             className={
               activeLocation === "dashboard"
-                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-orange-500"
+                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-secondary/90"
                 : "text-sm lg:text-base font-bold text-gray-800 dark:text-gray-200 px-3 "
             }
           >
@@ -29,7 +29,7 @@ export default function AdminDashboardLayout() {
             to={"/admin/dashboard/products"}
             className={
               activeLocation === "products"
-                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-orange-500"
+                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-secondary"
                 : "text-sm lg:text-base font-bold text-gray-800 dark:text-gray-200 px-3 "
             }
           >
@@ -40,7 +40,7 @@ export default function AdminDashboardLayout() {
             to={"/admin/dashboard/categories"}
             className={
               activeLocation === "categories"
-                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-orange-500"
+                ? "text-sm lg:text-base font-extrabold tracking-[1px] px-3 border-b-[2px] border-b-secondary"
                 : "text-sm lg:text-base font-bold text-gray-800 dark:text-gray-200 px-3 "
             }
           >
