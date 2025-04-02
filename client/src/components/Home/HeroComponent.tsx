@@ -23,7 +23,7 @@ export default function HeroComponent() {
       </div>
 
       <div className="w-full lg:w-[60%] flex justify-center">
-        <img className="w-[60%]" alt="hero image" src="/hero1.svg" />
+        <img className="w-[80%]" alt="hero image" src="/Hero1.svg" />
       </div>
     </div>
   );
