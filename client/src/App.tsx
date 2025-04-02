@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-//NOTE: IMPORTING EVERY PAGE ROUTES HERE
+// NOTE: IMPORTING EVERY PAGE ROUTES HERE
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -27,6 +27,8 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Customers from "./components/admin/Customers";
 import BlogPage from "./pages/BlogPage";
+import WholeLayoutPage from "./pages/WholeLayoutPage";
+import SearchPage from "./pages/SaerchPage";
 
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
@@ -40,104 +42,61 @@ const queryClient = new QueryClient({
 // NOTE: SETUP THE BROWSER ROUTE
 const browserRouter = createBrowserRouter([
   {
-    element: <MainLayoutPage />,
+    element: <WholeLayoutPage />,
     children: [
       {
-        path: "/",
-        element: <HomePage />,
+        element: <MainLayoutPage />,
+        children: [
+          { path: "/", element: <HomePage /> },
+          { path: "/about", element: <AboutPage /> },
+          { path: "/products/:id", element: <ProductDetailPage /> },
+          { path: "/cart", element: <CartPage /> },
+          { path: "/checkout", element: <CheckoutPage /> },
+          { path: "/blogs", element: <BlogPage /> },
+        ],
       },
+
+      { path: "/search", element: <SearchPage /> },
+
       {
-        path: "/about",
-        element: <AboutPage />,
-      },
-      {
-        path: "/products/:id",
-        element: <ProductDetailPage />,
-      },
-      {
-        path: "/cart",
-        element: <CartPage />,
+        path: "/auth",
+        element: <AuthLayoutPage />,
+        children: [
+          { path: "signup", element: <SignupPage /> },
+          { path: "signin", element: <SigninPage /> },
+        ],
       },
 
       {
-        path: "/checkout",
-        element: <CheckoutPage />,
-      },
-      {
-        path: "/blogs",
-        element: <BlogPage />,
-      },
-    ],
-  },
-  {
-    path: "/auth",
-    element: <AuthLayoutPage />,
-    children: [
-      {
-        path: "signup",
-        element: <SignupPage />,
-      },
-      {
-        path: "signin",
-        element: <SigninPage />,
-      },
-    ],
-  },
-  {
-    path: "/admin",
-    element: <PrivateRoute />,
-    children: [
-      {
-        path: "",
-        element: <Adminlayout />,
+        path: "/admin",
+        element: <PrivateRoute />, // ✅ Admin has its own layout
         children: [
           {
-            path: "dashboard",
-            element: <AdminDashboardLayout />,
+            path: "",
+            element: <Adminlayout />,
             children: [
               {
-                path: "",
-                element: <Dashboard />,
+                path: "dashboard",
+                element: <AdminDashboardLayout />,
+                children: [
+                  { path: "", element: <Dashboard /> },
+                  { path: "categories", element: <AdminCategory /> },
+                  { path: "products", element: <AdminProducts /> },
+                ],
               },
               {
-                path: "categories",
-                element: <AdminCategory />,
+                path: "notifications",
+                element: <AdminNotificationLayout />,
+                children: [
+                  { path: "", element: <Notifications /> },
+                  { path: "admin-requests", element: <AdminRequest /> },
+                  { path: "new-testimonials", element: <NewTestimonials /> },
+                  { path: "new-reviews", element: <NewReviews /> },
+                ],
               },
-              {
-                path: "products",
-                element: <AdminProducts />,
-              },
+              { path: "search", element: <Search /> },
+              { path: "customers", element: <Customers /> },
             ],
-          },
-          {
-            path: "notifications",
-            element: <AdminNotificationLayout />,
-            children: [
-              {
-                path: "",
-                element: <Notifications />,
-              },
-              {
-                path: "admin-requests",
-                element: <AdminRequest />,
-              },
-              {
-                path: "new-testimonials",
-                element: <NewTestimonials />,
-              },
-              {
-                path: "new-reviews",
-                element: <NewReviews />,
-              },
-            ],
-          },
-          {
-            path: "search",
-            element: <Search />,
-          },
-          {
-            path: "customers",
-            element: <Customers />,
           },
         ],
       },
