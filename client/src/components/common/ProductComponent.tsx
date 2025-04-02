@@ -30,12 +30,20 @@ export default function ProductComponent({
     >
       {something ? (
         <>
-          <div className="w-full h-[70%] object-contain overflow-hidden">
+          <div className="w-full h-[70%] object-contain overflow-hidden relative">
             <img
               className="size-full bg-cover hover:scale-[1.2] duration-300"
               src={`/${name}`}
               alt="Product"
             />
+
+            {!showAddTocart && (
+              <div className="absolute left-[50%] -translate-x-[50%] bottom-2 flex items-center justify-between">
+                <Button className="bg-gray-50 hover:bg-transparent px-0 py-0 lg:px-0 lg:py-0">
+                  <ShoppingCart className="size-5 lg:size-6 text-primary" />
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className="w-full h-[30%] flex flex-col justify-between p-2 overflow-y-auto">
