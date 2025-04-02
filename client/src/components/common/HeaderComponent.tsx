@@ -1,16 +1,55 @@
+"use client";
 import { width } from "@/constants/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, Moon, SearchIcon, ShoppingCart, SunMoon } from "lucide-react";
 import { useTheme } from "@/features/theme";
 import { useAuthStore } from "@/features/auth";
 import LogoutComponent from "../LogoutComponent";
 
 // TODO: HERE ARE ALL SHADCN UI COMPONENTS
+
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+
+const frameworks = [
+  {
+    value: "next.js",
+    label: "Next.js",
+  },
+  {
+    value: "sveltekit",
+    label: "SvelteKit",
+  },
+  {
+    value: "nuxt.js",
+    label: "Nuxt.js",
+  },
+  {
+    value: "remix",
+    label: "Remix",
+  },
+  {
+    value: "astro",
+    label: "Astro",
+  },
+];
+
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 import {
@@ -21,7 +60,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Button } from "../ui/button";
 import { navbarLinks } from "@/constants/navbar-links";
 
 export default function HeaderComponent() {
@@ -103,26 +141,91 @@ export default function HeaderComponent() {
         className={`${width} flex items-center justify-between h-[50%] w-full`}
       >
         <SearchComponent />
+        <SearchFilter />
       </div>
     </header>
   );
 }
 
 const SearchComponent = function () {
+  const [globalSearchValue, setGlobalSearch] = React.useState("");
+  const navigate = useNavigate();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSearchSubmit = function (e: any) {
+    e.preventDefault();
+    if (globalSearchValue.length > 0)
+      navigate(`/search?query=${globalSearchValue}`);
+  };
   return (
-    <form className="w-[70%] lg:w-[60%] 2xl:w-[40%] h-[60%] relative">
+    <form
+      className="w-[90%] lg:w-[60%] 2xl:w-[40%] h-[60%] relative"
+      onSubmit={handleSearchSubmit}
+    >
       <SearchIcon className="absolute top-[50%] -translate-y-[50%] left-2 text-gray-700 dark:text-gray-400 size-5" />
       <input
+        value={globalSearchValue}
+        onChange={(e) => setGlobalSearch(e.target.value)}
         type="text"
         placeholder="Search products"
         className="w-full h-full outline-none border-[1px] border-secondary rounded-4 pl-8 pr-10 rounded-lg"
       />
 
-      <button className="text-base bg-secondary tracking-[1px] flex items-center gap-1 px-2 py-1 rounded-md text-white absolute top-[50%] -translate-y-[50%] right-2">
+      <Button className="px-2 py-1 lg:px-3 lg:py-2 h-full text-gray-50 absolute top-[50%] -translate-y-[50%] right-0">
         <span>Search</span>
-        {/* <SearchIcon className="text-white size-5" /> */}
-      </button>
+      </Button>
     </form>
+  );
+};
+
+const SearchFilter = function () {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger className="hidden lg:flex" asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between text-xs lg:text-base px-2 py-1 lg:px-3 lg:py-2"
+        >
+          {value
+            ? frameworks.find((framework) => framework.value === value)?.label
+            : "All Categories"}
+          <ChevronsUpDown className="opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandGroup>
+              {frameworks.map((framework) => (
+                <CommandItem
+                  key={framework.value}
+                  value={framework.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  {framework.label}
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      value === framework.value ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 };
 
