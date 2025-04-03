@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DashboardChart } from "./DashboardChart";
 
 export default function Dashboard() {
   return (
@@ -8,6 +9,16 @@ export default function Dashboard() {
         <EachOverview link="/hello" name="Products" number={30} />
         <EachOverview link="/hello" name="Products" number={30} />
         <EachOverview link="/hello" name="Products" number={30} />
+      </div>
+
+      <div className="w-full flex flex-col lg:flex-row items-center">
+        <div className="w-full lg:w-[50%]">
+          <DashboardChart />
+        </div>
+
+        <div className="w-full lg:w-[50%]">
+          Hello world this is one part of the dasboard
+        </div>
       </div>
     </div>
   );
@@ -21,7 +32,7 @@ interface IEachOverview {
 
 const EachOverview = function ({ name, number, link }: IEachOverview) {
   return (
-    <div className="w-[90%] sm:w-[70%] md:w-[45%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] flex flex-col px-2 py-5 rounded-lg border-[1px] border-orange-500/[.5] shrink-0 bg-slate-300 dark:bg-slate-700 ">
+    <div className="w-[90%] sm:w-[70%] md:w-[45%] lg:w-[40%] xl:w-[30%] 2xl:w-[20%] flex flex-col px-2 py-5 rounded-lg shadow-md  shrink-0 bg-slate-300/[.2] dark:bg-slate-950/[.1] ">
       <span className="text-base lg:text-xl font-bold tarcking-[1px]">
         {name}
       </span>
@@ -30,10 +41,7 @@ const EachOverview = function ({ name, number, link }: IEachOverview) {
         {number}
       </span>
 
-      <Link
-        to={link}
-        className="flex items-center gap-2 text-orange-500/[.8] hover:text-orange-500"
-      >
+      <Link to={link} className="flex items-center gap-2 text-primary">
         <span className="text-xs lg:text-sm font-extrabold tracking-[1px]">
           See More
         </span>
