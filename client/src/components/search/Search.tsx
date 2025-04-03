@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "../ui/button";
 import { SearchIcon } from "lucide-react";
 import { SearchFilter } from "./SearchFilter";
@@ -174,17 +175,24 @@ export default function Search() {
 
   const queryParams = new URLSearchParams(location.search);
   const searchTerm = queryParams.get("query");
+
   const [globalSearchValue, setGlobalSearch] = useState(searchTerm || "");
 
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
-  const handleSearch = function (e) {
+  const handleSearch = function (e: any) {
     e.preventDefault();
-    if (globalSearchValue.length > 0)
+    console.log(globalSearchValue.length);
+    if (globalSearchValue.length > 0) {
       navigate(`/search?query=${globalSearchValue}`);
-    navigate("/search");
+    } else {
+      navigate("/search");
+    }
+    console.log(
+      "what is this in the universe of the name who created this thing for the createo"
+    );
   };
   setTimeout(() => {
     setLoading(false);
