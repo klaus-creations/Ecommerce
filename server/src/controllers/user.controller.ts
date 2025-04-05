@@ -1,5 +1,22 @@
 import { Request, Response, NextFunction } from "express";
 import productModel from "../models/products.model.js";
+import userModel from "../models/users.model.js";
+export const getAllUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+
+    const users = userModel.find({});
+
+
+    if (!users) {
+      throw new Error("Cannot get all users")
+    }
+    res.status(200).json({ message: true, data: users })
+  } catch (error) {
+    console.log(`error happening while getting all user ${(error as any).message || error}`)
+    next(error)
+  }
+}
+
 
 export const likeProduct = async (
   req: Request,
@@ -48,34 +65,34 @@ export const rateProduct = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => { };
 
 export const addProductReview = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => { };
 
 export const removeProductReview = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => { };
 
 export const placeOrder = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => { };
 
 export const cancelOrder = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => { };
 
 export const orderHistory = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {};
+): Promise<void> => { };
