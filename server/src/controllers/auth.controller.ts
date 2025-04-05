@@ -106,7 +106,6 @@ export const logoutUser = async (
 export const isAuthenticated = async (
   req: Request,
   res: Response,
-  next: NextFunction
 ): Promise<void> => {
   res.status(200).json({
     success: true,
