@@ -27,9 +27,6 @@ export const productValidation: ValidationChain[] = [
     .isString()
     .withMessage("Category must be a string"),
 
-  body("images")
-    .isArray({ min: 1 })
-    .withMessage("At least one image is required"),
 
   body("images.*").isString().withMessage("Each image must be a string (URL)"),
 ];
