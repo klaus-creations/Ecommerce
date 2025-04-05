@@ -9,16 +9,30 @@ export const createProduct = async (
   next: NextFunction
 ): Promise<void> => {
   try {
+    const files = req.files as Express.Multer.File[];
+
+
+    if (!files) {
+      throw new Error("No file to upload");
+    }
+
+
+    const filePaths = files.map(file => {
+      const uploadName = file.filename;
+      return uploadName;
+    });
+
+
     const { category } = req.body;
 
     const categoryId = await categoryModel.findById(category);
-
     if (!categoryId) {
-      throw new Error("Category not Found with this Id");
+      res.status(400).json({ success: false, message: "category is not specified" })
     }
 
     const newProduct = await productModel.create({
       ...req.body,
+      images: filePaths
     });
 
     res.status(201).json({ success: true, data: newProduct });
@@ -32,19 +46,19 @@ export const createProduct = async (
   }
 };
 
-export const updateProduct = async function (
+export const updateProduct = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const deleteProduct = async function (
+export const deleteProduct = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const getAllProducts = async function (
+export const getAllProducts = async function(
   req: Request,
   res: Response,
   next: NextFunction
@@ -62,7 +76,7 @@ export const getAllProducts = async function (
   }
 };
 
-export const getProductById = async function (
+export const getProductById = async function(
   req: Request,
   res: Response,
   next: NextFunction
@@ -80,7 +94,7 @@ export const getProductById = async function (
   }
 };
 
-export const getProductsByCategory = async function (
+export const getProductsByCategory = async function(
   req: Request,
   res: Response,
   next: NextFunction
@@ -104,50 +118,50 @@ export const getProductsByCategory = async function (
   }
 };
 
-export const searchProducts = async function (
+export const searchProducts = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const getFeaturedProducts = async function (
+export const getFeaturedProducts = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const getNewArrivals = async function (
+export const getNewArrivals = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const addProductReview = async function (
+export const addProductReview = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const getProductReviews = async function (
+export const getProductReviews = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const deleteProductReview = async function (
+export const deleteProductReview = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const getRecommendedProducts = async function (
+export const getRecommendedProducts = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
 
-export const filterProducts = async function (
+export const filterProducts = async function(
   req: Request,
   res: Response,
   next: NextFunction
-) {};
+) { };
