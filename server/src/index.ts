@@ -4,6 +4,8 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
+
+
 dotenv.config();
 
 import "./config/passport.js";
@@ -25,6 +27,10 @@ import categoryRouter from "./routes/category.routes.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import reviewsRouter from "./routes/reviews.routes.js";
 import productRoute from "./routes/product.routes.js";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 const app = express();
@@ -53,6 +59,9 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/categories", categoryRouter);
 app.use("/api/v1/reviews", reviewsRouter);
+
+
+app.use('/api/v1/images', express.static(path.join(__dirname, 'public/images')))
 
 app.get("/", function(req, res) {
   res.send("This is the homepage");
