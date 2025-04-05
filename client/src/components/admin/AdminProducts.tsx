@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, SearchIcon } from "lucide-react";
+import { Check, ChevronsUpDown, Plus, SearchIcon } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -23,9 +23,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-
+import { toast } from "sonner";
 import { productValidations } from "@/validations";
 
 // NOTE: IMPORTING THIRD PARTY LIBRARIES
@@ -33,6 +50,11 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Heading from "../common/Heading";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createProducts, getAllCategories, getAllProducts } from "@/features/request";
+
+import { CONFIG } from "@/config/env.js"
+import React from "react";
 
 export default function AdminProducts() {
   return (
@@ -74,7 +96,22 @@ export default function AdminProducts() {
   );
 }
 
-const TableRowC = function () {
+const TableRowC = function() {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['products'],
+    queryFn: getAllProducts
+  })
+  const products = data?.data
+  console.log(typeof products)
+  if (products) {
+
+    if (products[4].images) {
+      console.log(products[3].images[0])
+      const some = `${CONFIG.SERVER_URI}/images/${products[4].images[0]}`
+      console.log(some)
+    }
+  }
+  // `${`${CONFIG.SERVER_URI}/images${products[3][0]}}
   return (
     <Table className="size-full border-[1px] border-secondary relative">
       <TableHeader className="w-full">
@@ -92,7 +129,15 @@ const TableRowC = function () {
           </TableHead>
         </TableRow>
       </TableHeader>
-      {Array.from({ length: 20 }, (_, i) => {
+      {
+
+      }
+
+
+      {
+
+      }
+      {isLoading ? <TableBody className="w-full h-full flex items-center justify-center">Loaindg</TableBody> : Array.from({ length: 20 }, (_, i) => {
         return (
           <TableBody key={i}>
             <TableRow className="">
@@ -100,7 +145,7 @@ const TableRowC = function () {
               <TableCell>
                 <img
                   className="size-14"
-                  src={`/${i + 20}.jpg`}
+                  src={products ? `${CONFIG.SERVER_URI}/images/${products[4].images[0]}` : null}
                   alt="small for admin product list"
                 />
               </TableCell>
@@ -121,7 +166,10 @@ const TableRowC = function () {
   );
 };
 
-const DialogC = function () {
+const DialogC = function() {
+  const queryClient = useQueryClient();
+
+  const [value, setValue] = React.useState<string>("electronics");
   type SignupFormType = z.infer<typeof productValidations>;
   const {
     register,
@@ -135,8 +183,8 @@ const DialogC = function () {
       price: undefined,
       discountedPrice: undefined,
       stock: undefined,
-      category: "",
-      images: [""],
+      category: value,
+      images: [],
       ratings: undefined,
       reviews: [],
       likes: undefined,
@@ -145,9 +193,39 @@ const DialogC = function () {
     mode: "onBlur",
   });
 
-  const onSubmit = async function () {
-    console.log("Hello world");
+
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: createProducts,
+    onSuccess: (data) => {
+      toast("User create and logged In successfully");
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+    onError: (err: any) => {
+      const errorMessage =
+        err.response?.data?.message || "An unexpected error occurred";
+      toast(errorMessage);
+    },
+  });
+
+  const onSubmit = async function(data: any) {
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("price", String(data.price)); // Ensure all are strings
+    formData.append("discountedPrice", String(data.discountedPrice));
+    formData.append("stock", String(data.stock));
+    formData.append("category", value); // if you're setting this from state
+
+    // Handle multiple image uploads
+    Array.from(data.images).forEach((file: any) => {
+      formData.append("images", file); // "images" must match multer field name
+    });
+
+    // Now call the mutation
+    mutate(formData);
   };
+
 
   return (
     <Dialog>
@@ -182,7 +260,7 @@ const DialogC = function () {
           <div className="flex flex-col gap-2 items-start">
             <textarea
               {...register("description")}
-              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
+              className="w-full border-[1px] border-secondary shadow-md h-20 resize-none  rounded-sm outline-none px-3 py-1"
               placeholder="Description"
             />
             {errors.description && (
@@ -235,24 +313,16 @@ const DialogC = function () {
           </div>
 
           <div className="flex flex-col gap-2 items-start">
-            <input
-              {...register("category")}
-              type="text"
-              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
-              placeholder="Category ID"
-            />
-            {errors.category && (
-              <span className="text-sm text-red-500">
-                {errors.category?.message}
-              </span>
-            )}
+            <CategoryFilter value={value} setValue={setValue} />
           </div>
+
 
           <div className="flex flex-col gap-2 items-start">
             <input
-              {...register("images.0")}
+              {...register("images")}
               type="file"
-              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
+              multiple
+              className="w-full border border-secondary shadow-md rounded-sm outline-none px-3 py-1"
             />
             {errors.images && (
               <span className="text-sm text-red-500">
@@ -261,33 +331,7 @@ const DialogC = function () {
             )}
           </div>
 
-          <div className="flex flex-col gap-2 items-start">
-            <input
-              {...register("ratings")}
-              type="number"
-              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
-              placeholder="Ratings (0-5)"
-            />
-            {errors.ratings && (
-              <span className="text-sm text-red-500">
-                {errors.ratings?.message}
-              </span>
-            )}
-          </div>
 
-          <div className="flex flex-col gap-2 items-start">
-            <input
-              {...register("likes")}
-              type="number"
-              className="w-full border-[1px] border-secondary shadow-md  rounded-sm outline-none px-3 py-1"
-              placeholder="Likes"
-            />
-            {errors.likes && (
-              <span className="text-sm text-red-500">
-                {errors.likes?.message}
-              </span>
-            )}
-          </div>
 
           <DialogFooter>
             <Button>Add Product</Button>
@@ -297,3 +341,73 @@ const DialogC = function () {
     </Dialog>
   );
 };
+
+
+
+
+
+interface IAddProductCategoryFilter {
+  value: string,
+  setValue: (value: string) => void
+}
+
+const CategoryFilter = function({ value, setValue }: IAddProductCategoryFilter) {
+  const { data } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getAllCategories,
+  });
+
+  const categories = data?.data || [];
+
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger className="hidden lg:flex" asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between text-xs lg:text-base px-2 py-1 lg:px-3 lg:py-2"
+        >
+          {categories.find((category) => category.slug === value)?.name || "All Categories"}
+          <ChevronsUpDown className="opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search framework..." className="h-9" />
+          <CommandList>
+            <CommandEmpty>No category found.</CommandEmpty>
+            <CommandGroup>
+              {categories.map((category: any) => (
+                <CommandItem
+                  key={category.slug}
+                  value={category.slug}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  {category.name}
+                  <Check
+                    className={cn(
+                      "ml-auto",
+                      value === category.slug ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+
+
+
+
+
