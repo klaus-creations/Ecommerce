@@ -27,28 +27,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
@@ -61,6 +40,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navbarLinks } from "@/constants/navbar-links";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCategories } from "@/features/request";
 
 export default function HeaderComponent() {
   const { isDarkMode, setTheme } = useTheme();
@@ -147,12 +128,12 @@ export default function HeaderComponent() {
   );
 }
 
-const SearchComponent = function () {
+const SearchComponent = function() {
   const [globalSearchValue, setGlobalSearch] = React.useState("");
   const navigate = useNavigate();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSearchSubmit = function (e: any) {
+  const handleSearchSubmit = function(e: any) {
     e.preventDefault();
     if (globalSearchValue.length > 0)
       navigate(`/search?query=${globalSearchValue}`);
@@ -178,9 +159,20 @@ const SearchComponent = function () {
   );
 };
 
-const SearchFilter = function () {
+
+
+
+const SearchFilter = function() {
+  const { data } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getAllCategories,
+  });
+
+  const categories = [{ name: "All Categories", slug: "all" }, ...(data?.data || [])];
+
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState<string>("all");
+  console.log(value)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -191,9 +183,7 @@ const SearchFilter = function () {
           aria-expanded={open}
           className="w-[200px] justify-between text-xs lg:text-base px-2 py-1 lg:px-3 lg:py-2"
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : "All Categories"}
+          {categories.find((category) => category.slug === value)?.name || "All Categories"}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -201,22 +191,22 @@ const SearchFilter = function () {
         <Command>
           <CommandInput placeholder="Search framework..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No category found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {categories.map((category: any) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={category.slug}
+                  value={category.slug}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    setValue(currentValue);
                     setOpen(false);
                   }}
                 >
-                  {framework.label}
+                  {category.name} {/* Only render the name */}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      value === category.slug ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>
@@ -229,12 +219,14 @@ const SearchFilter = function () {
   );
 };
 
+
+
 interface IAuthneticated {
   name: string;
   email: string;
 }
 
-const Authenticated = function ({ name, email }: IAuthneticated) {
+const Authenticated = function({ name, email }: IAuthneticated) {
   return (
     <Popover>
       <PopoverTrigger>
@@ -275,7 +267,7 @@ interface ISheetTrigger {
   isAuthenticated: boolean;
 }
 
-const SheetTriggerC = function ({
+const SheetTriggerC = function({
   name,
   email,
   isAdmin,
