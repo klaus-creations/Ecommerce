@@ -2,7 +2,10 @@ import multer, { StorageEngine, FileFilterCallback } from "multer";
 import path = require("path");
 import { Request } from "express";
 
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 
 const storage: StorageEngine = multer.diskStorage({
   destination: (
@@ -10,19 +13,18 @@ const storage: StorageEngine = multer.diskStorage({
     file: Express.Multer.File,
     cb: (error: Error | null, destination: string) => void
   ) => {
-    cb(null, path.join(__dirname, "../public/avatars"));
+    cb(null, path.join(__dirname, "../public/images"));
   },
   filename: (
     req: Request,
     file: Express.Multer.File,
     cb: (error: Error | null, filename: string) => void
   ) => {
-    const uniqueSuffix = "logo-" + Date.now() + "-" + file.originalname;
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    const uniqueSuffix = "gebeya-" + Date.now();
+    const fileExtension = path.extname(file.originalname); // Get the file extension
+    cb(null, uniqueSuffix + fileExtension); // Append the extension once
   },
-});
-
-const fileFilter = (
+}); const fileFilter = (
   req: Request,
   file: Express.Multer.File,
   cb: FileFilterCallback
