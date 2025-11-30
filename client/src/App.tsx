@@ -10,7 +10,6 @@ import SigninPage from "./pages/SigninPage";
 import MainLayoutPage from "./pages/MainLayoutPage";
 import AuthLayoutPage from "./pages/AuthLayoutPage";
 import Dashboard from "./components/admin/Dashboard";
-import AdminCategory from "./components/admin/AdminCategory";
 import AdminProducts from "./components/admin/AdminProducts";
 import Notifications from "./components/admin/Notifications";
 import Search from "./components/admin/Search";
@@ -29,7 +28,7 @@ import Customers from "./components/admin/Customers";
 import BlogPage from "./pages/BlogPage";
 import WholeLayoutPage from "./pages/WholeLayoutPage";
 import SearchPage from "./pages/SaerchPage";
-
+import AdminCategoriesCOntrol from "@/components/admin/categories/admin-categories"
 // NOTE: SETUP TANSTACK - REACT QUERY
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,7 +79,7 @@ const browserRouter = createBrowserRouter([
                 element: <AdminDashboardLayout />,
                 children: [
                   { path: "", element: <Dashboard /> },
-                  { path: "categories", element: <AdminCategory /> },
+                  { path: "categories", element: <AdminCategoriesCOntrol /> },
                   { path: "products", element: <AdminProducts /> },
                 ],
               },

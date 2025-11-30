@@ -22,7 +22,7 @@ export const signupValidations = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match",
     path: ["confirmPassword"],
-  });
+});
 
 export const signInValidations = z.object({
   email: z
@@ -48,13 +48,9 @@ export const productValidations = z.object({
     .max(500, "Description cannot exceed 500 characters")
     .optional(),
   price: z.coerce.number().min(1, "Price must be greater than 0"),
-  discountedPrice: z.coerce.number().optional(), stock: z.coerce.number().min(0, "Stock cannot be negative").default(0),
+  discountedPrice: z.coerce.number().optional(),
+  stock: z.coerce.number().min(0, "Stock cannot be negative").default(0),
   category: z.string().nonempty("Please provide a valid category ID"),
-  images: z
-    .any()
-    .refine((files) => Array.isArray(files) || files instanceof FileList, {
-      message: "Images must be an array",
-    }),
 });
 
 export const addReviewValidations = z.object({

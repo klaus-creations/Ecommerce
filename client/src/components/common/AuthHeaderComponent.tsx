@@ -9,7 +9,7 @@ export default function AuthHeaderComponent() {
   return (
     <header className="w-full absolute top-0 left-0 flex flex-col border-b-[1px] h-[10%] bg-slate-100 dark:bg-zinc-950/96 border-gray-900/[.5] dark:bg-border-gray-200 dark:text-white text-black">
       <div
-        className={`${width} flex items-center justify-between h-[100%] border-b-[1px] border-gray-900/[.2] 
+        className={`${width} flex items-center justify-between h-[100%] border-b-[1px] border-gray-900/[.2]
         dark:border-gray-200/[.2]`}
       >
         <Link

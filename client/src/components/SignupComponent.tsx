@@ -3,51 +3,58 @@ import { width } from "@/constants/styles";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupValidations } from "@/validations";
+import { registerSchema } from "@/lib/validations/register.validation";
+
 import { z } from "zod";
 import { toast } from "sonner";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUser } from "@/features/request";
 import { useAuthStore } from "@/features/auth";
 import { Button } from "./ui/button";
 
+import { useRegistration } from "@/lib/hooks/auth/useRegistration";
+import { IRegisterPayload } from "@/types/user/regitserUser";
+
+type SignupFormType = z.infer<typeof registerSchema>;
+
 export default function SignupComponent() {
   const { setUser } = useAuthStore();
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate, isPending: isLoading } = useMutation({
-    mutationFn: createUser,
-    onSuccess: (data) => {
-      toast("User create and logged In successfully");
-      setUser(data?.data?.user);
-      queryClient.invalidateQueries({ queryKey: ["session"] });
-      navigate("/");
-    },
-    onError: (err: any) => {
-      const errorMessage =
-        err.response?.data?.message || "An unexpected error occurred";
-      toast(errorMessage);
-    },
-  });
-  type SignupFormType = z.infer<typeof signupValidations>;
+  const { mutate: registerUser, isPending: isLoading } = useRegistration();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignupFormType>({
-    resolver: zodResolver(signupValidations),
+    // @ts-ignore
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
+      passwordConfirm: "",
     },
-    mode: "onBlur",
   });
 
-  const onSubmit = async function (data: SignupFormType) {
-    mutate(data);
+  const onSubmit = (data: SignupFormType) => {
+    const payload: IRegisterPayload = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
+    registerUser(payload, {
+      onSuccess: (res) => {
+        toast("User created successfully");
+        setUser(res?.data?.user);
+        navigate("/");
+      },
+
+      onError: (err: any) => {
+        const msg =
+          err.response?.data?.message || "An unexpected error occurred";
+        toast(msg);
+      },
+    });
   };
 
   return (
@@ -59,6 +66,8 @@ export default function SignupComponent() {
         className="w-[90%] md:w-[80%] 2xl:w-[50%] flex flex-col items-center gap-3"
       >
         <h1 className="text-3xl font-bold">Create An Account</h1>
+
+        {/* Name */}
         <div className="w-[90%] flex flex-col items-start gap-1">
           <label className="text-base lg:font-bold tracking-[1px]">Name</label>
           <input
@@ -66,17 +75,15 @@ export default function SignupComponent() {
             placeholder="Full Name"
             {...register("name")}
             type="text"
-            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-secondary rounded-lg shadow-sm  "
+            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border
+            border-secondary rounded-lg shadow-sm"
           />
-
-          {errors["name"] && (
-            <span className="text-sm text-red-500">
-              {errors["name"]?.message}
-            </span>
+          {errors.name && (
+            <span className="text-sm text-red-500">{errors.name.message}</span>
           )}
         </div>
 
+        {/* Email */}
         <div className="w-[90%] flex flex-col items-start gap-1">
           <label className="text-base lg:font-bold tracking-[1px]">Email</label>
           <input
@@ -84,65 +91,66 @@ export default function SignupComponent() {
             placeholder="Email Address"
             {...register("email")}
             type="email"
-            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-secondary rounded-lg shadow-sm  "
+            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border
+            border-secondary rounded-lg shadow-sm"
           />
-
-          {errors["email"] && (
-            <span className="text-sm text-red-500">
-              {errors["email"]?.message}
-            </span>
+          {errors.email && (
+            <span className="text-sm text-red-500">{errors.email.message}</span>
           )}
         </div>
 
+        {/* Password */}
         <div className="w-[90%] flex flex-col items-start gap-1">
           <label className="text-base lg:font-bold tracking-[1px]">
             Password
           </label>
           <input
             id="password"
-            placeholder="Full Name"
+            placeholder="Password"
             {...register("password")}
             type="password"
-            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-secondary rounded-lg shadow-sm  "
+            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border
+            border-secondary rounded-lg shadow-sm"
           />
-          {errors["password"] && (
+          {errors.password && (
             <span className="text-sm text-red-500">
-              {errors["password"]?.message}
+              {errors.password.message}
             </span>
           )}
         </div>
 
+        {/* Confirm Password */}
         <div className="w-[90%] flex flex-col items-start gap-1">
           <label className="text-base lg:font-bold tracking-[1px]">
             Confirm Password
           </label>
           <input
             id="confirmPassword"
-            placeholder="Full Name"
-            {...register("confirmPassword")}
+            placeholder="Confirm Password"
+            {...register("passwordConfirm")}
             type="password"
-            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
-            border-secondary rounded-lg shadow-sm  "
+            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border
+            border-secondary rounded-lg shadow-sm"
           />
-          {errors["confirmPassword"] && (
+          {errors.passwordConfirm && (
             <span className="text-sm text-red-500">
-              {errors["confirmPassword"]?.message}
+              {errors.passwordConfirm.message}
             </span>
           )}
         </div>
 
+        {/* Submit */}
         <Button disabled={isLoading} type="submit">
           Create Account
         </Button>
-        <div className="flex items-center   gap-2">
+
+        <div className="flex items-center gap-2">
           <span className="text-base font-bold tracking-[1px]">
             I have an Account{" "}
           </span>
           <Link
             to={"/auth/signin"}
-            className="text-base font-bold tracking-[1px] text-primary "
+            className="text-base font-bold tracking-[1px] text-primary"
           >
             Sign In
           </Link>

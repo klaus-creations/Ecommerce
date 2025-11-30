@@ -10,7 +10,7 @@ export default function WholeLayoutPage() {
         isDarkMode && "dark"
       } w-full h-screen  flex flex-col scroll `}
     >
-      <div className="size-full overflow-hidden  bg-slate-50 dark:bg-zinc-950  text-black dark:text-white overflow-y-hidden">
+      <div className="size-full overflow-hidden  bg-slate-50 dark:bg-[#121212] text-black dark:text-white overflow-y-hidden">
         {<Outlet />}
       </div>
     </div>

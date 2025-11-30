@@ -9,6 +9,7 @@ export default function Cart() {
     >
       <Heading heading="Cart" />
       <CartTable />
+      <button className="text-black">Hello</button>
     </div>
   );
 }

@@ -5,8 +5,14 @@ import { Button } from "../ui/button";
 import { ShoppingCart } from "lucide-react";
 import ProductReview from "./ProductReviews";
 import AddReview from "./AddReview";
+import { useQuery } from "@tanstack/react-query";
 
+import {getProductById} from "@/features/requests/product.request"
 export default function Detail() {
+const { data, isLoading, error } = useQuery({
+  queryKey: ["product", "123"], // Replace "123" with actual product ID
+  queryFn: getProductById,
+});
   return (
     <section
       className={`${width} flex flex-col items-center lg:items-start py-8 lg:py-12`}
@@ -57,7 +63,7 @@ const ProductDetails = function () {
       <Rating rating={4} />
       <div className="w-full flex flex-col gap-2 items-start">
         <h3 className="text-sm lg:text-base font-extrabold tracking-[1px] text-gray-800 dark:text-gray-200">
-          Product Detail
+          Hello world
         </h3>
         <p className="text-gray-800 dark:text-gray-300 font-light tracking-[1px]">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
@@ -68,7 +74,7 @@ const ProductDetails = function () {
 
         <div className="w-full flex justify-between">
           <Button className="bg-transparent hover:bg-transparent p-0">
-            {true ? (
+            {2 > 1 ? (
               <img src="/heart.svg" alt="heart" className="size-6 lg:size-8" />
             ) : (
               <img src="/heart-full.svg" className="size-6 lg:size-8" />

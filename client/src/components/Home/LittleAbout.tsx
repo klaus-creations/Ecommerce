@@ -1,44 +1,90 @@
 import { width } from "@/constants/styles";
 import Heading from "../common/Heading";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { guarantees } from "@/constants/data";
+import { Check, Truck, Shield, RefreshCw } from "lucide-react";
 
 export default function LittleAbout() {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
-    <section
-      className={`${width} flex flex-col items-start gap-3 bg-slate-300/[.5] dark:bg-slate-900/[.5] shadow-md p-2 lg:p-4`}
+    <motion.section
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={inView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.6 }}
+      className={`${width} relative overflow-hidden py-12 lg:py-16`}
     >
-      <Heading heading="Little About Us" />
-      <h3 className="text-3xl lg:text-4xl font-bold tracking-[1px] dark:text-text2 text-gray-800">
-        Your Journey to{" "}
-        <strong className="text-primary">Effortless Elegance</strong>
-      </h3>
+      {/* Glowing background elements */}
+      <div className="absolute -top-20 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10" />
+      <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl -z-10" />
 
-      <p className="text-sm lg:text-base font-bold tracking-[1px] text-gray-500 dark:text-gray-7600">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint veniam
-        debitis magni animi officiis, vero a non. Quaerat, qui. Expedita odio
-        ducimus repellendus est atque officiis voluptates facilis sequi
-        dignissimos. Lorem ipsum dolor sit amet consectetur
-      </p>
+      <div className="relative z-10 backdrop-blur-sm p-6 lg:p-10 rounded-2xl shadow-xl border border-slate-200/50 dark:border-slate-700/50">
+        <Heading heading="Little About Us" />
 
-      <LittleOverview />
-      <GuaranteeComponent />
-    </section>
+        <motion.h3
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2 }}
+          className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-white mt-4 mb-6"
+        >
+          Your Journey to{" "}
+          <span className="relative">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">Effortless Elegance</span>
+            <span className="absolute bottom-2 left-0 w-full h-3 bg-primary/20 -z-10" />
+          </span>
+        </motion.h3>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.4 }}
+          className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-3xl leading-relaxed"
+        >
+          We're not just a marketplace, but a curated destination for those who appreciate quality and style.
+          Our mission is to bring you the finest products with exceptional service, making your shopping
+          experience truly effortless and elegant.
+        </motion.p>
+
+        <LittleOverview />
+        <GuaranteeComponent />
+      </div>
+    </motion.section>
   );
 }
 
-import { guarantees } from "@/constants/data";
-
 const GuaranteeComponent = function () {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
-    <div className={`w-full flex justify-between py-2 lg:py-8 flex-wrap`}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={inView ? { opacity: 1 } : {}}
+      transition={{ delay: 0.6 }}
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 py-6 lg:py-10"
+    >
       {guarantees.map((el, i) => (
-        <Guarantee
+        <motion.div
           key={i}
-          title={el.title}
-          description={el.description}
-          logo={el.logo}
-        />
+          whileHover={{ y: -5 }}
+          className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm p-4 lg:p-6 rounded-xl border border-slate-200/50 dark:border-slate-700/50 shadow-sm hover:shadow-md transition-all"
+        >
+          <Guarantee
+            title={el.title}
+            description={el.description}
+            logo={el.logo}
+          />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 };
 
@@ -49,19 +95,23 @@ interface GuaranteeProps {
 }
 
 const Guarantee = function ({ title, description, logo }: GuaranteeProps) {
+  const iconMap: Record<string, JSX.Element> = {
+    "check": <Check className="w-6 h-6 text-primary" />,
+    "truck": <Truck className="w-6 h-6 text-primary" />,
+    "shield": <Shield className="w-6 h-6 text-primary" />,
+    "refresh": <RefreshCw className="w-6 h-6 text-primary" />,
+  };
+
   return (
-    <div className="flex gap-2 items-center  p-2 rounded-lg w-[50%] lg:w-[25%]">
-      <img
-        src={`/${logo}`}
-        alt="guaratees logo"
-        className="size-7 lg:size-8 text-primary"
-      />
-      <div className="flex flex-col items-start">
-        <p className="text-sm font-extrabold text-gray-800 dark:text-gray-300">
+    <div className="flex gap-4 items-start">
+      <div className="p-2 bg-primary/10 rounded-lg">
+        {iconMap[logo] || <Check className="w-6 h-6 text-primary" />}
+      </div>
+      <div className="flex flex-col items-start gap-1">
+        <p className="text-lg font-bold text-gray-900 dark:text-white">
           {title}
         </p>
-
-        <p className="text-sm font-bold text-gray-700 dark:text-gray-400">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           {description}
         </p>
       </div>
@@ -70,43 +120,42 @@ const Guarantee = function ({ title, description, logo }: GuaranteeProps) {
 };
 
 const LittleOverview = function () {
+  const stats = [
+    { label: "Products", value: "450+" },
+    { label: "Categories", value: "20+" },
+    { label: "Happy Customers", value: "10K+" },
+    { label: "Delivery Areas", value: "30+" },
+  ];
+
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   return (
-    <div className="flex items-center gap-10 lg:gap-20 bg-slate-300/[.2] dark:bg-slate-900/[.2] p-3 overflow-x-auto rounded-md ">
-      <div className="flex flex-col items-center gap-1">
-        <span className="text-sm lg:text-base font-light shrink-0 text-text2">
-          Products
-        </span>
-        <span className="text-2xl lg:text-3xl font-extrabold tracking-[1px] text-text1">
-          450+
-        </span>
-      </div>
-
-      <div className="flex flex-col items-center gap-1">
-        <span className="text-sm lg:text-base font-light shrink-0 text-text2">
-          Categories
-        </span>
-        <span className="text-2xl lg:text-3xl font-extrabold tracking-[1px] text-text1">
-          20+
-        </span>
-      </div>
-
-      <div className="flex flex-col items-center gap-1">
-        <span className="text-sm lg:text-base font-light shrink-0 text-text2">
-          Happy Customers
-        </span>
-        <span className="text-2xl lg:text-3xl font-extrabold tracking-[1px] text-text1">
-          200+
-        </span>
-      </div>
-
-      <div className="flex flex-col items-center gap-1">
-        <span className="text-sm lg:text-base font-light shrink-0 text-text2">
-          Delivary places
-        </span>
-        <span className="text-2xl lg:text-3xl font-extrabold tracking-[1px] text-text1">
-          30+
-        </span>
-      </div>
-    </div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={inView ? { opacity: 1 } : {}}
+      transition={{ delay: 0.4 }}
+      className="grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-8 bg-gradient-to-r from-primary/5 to-purple-600/5 dark:from-primary/10 dark:to-purple-600/10 p-4 lg:p-6 rounded-xl mb-8 lg:mb-12"
+    >
+      {stats.map((stat, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.5 + index * 0.1 }}
+          className="flex flex-col items-center gap-2 p-3 lg:p-4"
+        >
+          <span className="text-3xl lg:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
+            {stat.value}
+          </span>
+          <span className="text-sm lg:text-base font-medium text-gray-600 dark:text-gray-400 text-center">
+            {stat.label}
+          </span>
+        </motion.div>
+      ))}
+    </motion.div>
   );
-};
+};;

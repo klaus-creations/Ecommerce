@@ -1,5 +1,5 @@
 import { width } from "@/constants/styles";
-import ProductComponent from "./common/ProductComponent";
+import ProductComponent from "../common/ProductComponent";
 
 export default function PopularProducts() {
   return (
@@ -10,7 +10,14 @@ export default function PopularProducts() {
 
       <div className="w-full flex justify-around flex-wrap gap-10">
         {Array.from({ length: 8 }, (_, i) => {
-          return <ProductComponent key={i} />;
+          return (
+            <ProductComponent
+              showAddTocart={true}
+              wrap={true}
+              name="hello"
+              key={i}
+            />
+          );
         })}
       </div>
     </div>

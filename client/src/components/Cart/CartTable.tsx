@@ -1,4 +1,4 @@
-// NOTE: IMPORTING SHACN COMPONENTS
+//c NOTE: IMPORTING SHACN COMPONENTS
 import {
   Table,
   TableBody,
@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PenLine, SearchIcon, Trash2 } from "lucide-react";
+import { SearchIcon } from "lucide-react";
 
 import {
   Select,
@@ -22,6 +22,7 @@ import { Input } from "../ui/input";
 // NOTE: IMPORTING THIRD PARTY LIBRARIES
 
 export default function CartTable() {
+
   return (
     <div className="size-full flex flex-col items-start gap-4">
       <div className="w-full flex flex-col items-start gap-2">

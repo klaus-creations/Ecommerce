@@ -1,5 +1,6 @@
 import { Bar, BarChart } from "recharts";
 
+
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 
 const chartData = [

@@ -1,34 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { width } from "@/constants/styles";
-import { useAuthStore } from "@/features/auth";
-import { login } from "@/features/request";
 import { signInValidations } from "@/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "./ui/button";
 
+import { useSignIn } from "@/lib/hooks/auth/useSignIn";
+import { ILoginSchema } from "@/types/user/sign-in";
+
 export default function SignInComponent() {
-  const navigate = useNavigate();
-  const { setUser } = useAuthStore();
-  const queryClient = useQueryClient();
-  const { mutate, isPending: isLoading } = useMutation({
-    mutationFn: login,
-    onSuccess: (data) => {
-      toast("User LoggedIn successfully");
-      setUser(data?.data);
-      queryClient.invalidateQueries({ queryKey: ["session"] });
-      navigate("/");
-    },
-    onError: (err: any) => {
-      const errorMessage =
-        err.response?.data?.message || "An unexpected error occurred";
-      toast(errorMessage);
-    },
-  });
+  const { mutate: loginUser, isPending: isLoading } = useSignIn();
 
   type SignupFormType = z.infer<typeof signInValidations>;
   const {
@@ -45,7 +29,18 @@ export default function SignInComponent() {
   });
 
   const onSubmit = async function (data: SignupFormType) {
-    mutate(data);
+    const payload: ILoginSchema = {
+            email: data?.email,
+            password: data?.password
+    }
+    loginUser(payload, {
+        onSuccess: (res) => {
+          toast.success("User Logged In successfully")
+        },
+        onError: err => {
+          toast.error("Error while logging the user")
+        }
+    })
   };
 
   return (

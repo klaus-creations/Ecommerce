@@ -3,7 +3,6 @@ import { width } from "@/constants/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, Moon, SearchIcon, ShoppingCart, SunMoon } from "lucide-react";
 import { useTheme } from "@/features/theme";
-import { useAuthStore } from "@/features/auth";
 import LogoutComponent from "../LogoutComponent";
 
 // TODO: HERE ARE ALL SHADCN UI COMPONENTS
@@ -27,7 +26,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-
+import Logo from "../../components/common/logo";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
@@ -42,26 +41,24 @@ import {
 import { navbarLinks } from "@/constants/navbar-links";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCategories } from "@/features/request";
+import { authClient } from "@/lib/auth-client";
 
 export default function HeaderComponent() {
   const { isDarkMode, setTheme } = useTheme();
-  const { isAuthenticated, user } = useAuthStore();
+  const isAuthenticated = true;
+
+  const data = authClient.useSession();
+  console.log("Session Data:", data);
 
   const theme = isDarkMode;
 
   return (
-    <header className="w-full flex flex-col border-b-[1px] h-[15%] bg-slate-100 dark:bg-zinc-950/96 border-gray-900/[.5] dark:bg-border-gray-200 dark:text-white text-black">
+    <header className="w-full flex flex-col border-b h-[15%] bg-slate-100 dark:bg-zinc-950/96 border-gray-900/50 dark:bg-border-gray-200 dark:text-white text-black">
       <div
-        className={`${width} flex items-center justify-between h-[50%] border-b-[1px] border-gray-900/[.2] 
-      dark:border-gray-200/[.2]`}
+        className={`${width} flex items-center justify-between h-[50%] border-b border-gray-900/20
+      dark:border-gray-200/20`}
       >
-        <Link
-          to={"/"}
-          className="text-base lg:text-xl font-bold first-letter:text-2xl lg:first-letter:text-3xl first-letter:font-extrabold text-primary"
-        >
-          Gebeya
-        </Link>
-
+        <Logo />
         <nav className="lg:flex items-center gap-3 hidden">
           {navbarLinks.map((el, i) => {
             return (
@@ -93,14 +90,15 @@ export default function HeaderComponent() {
           )}
           <>
             {isAuthenticated ? (
-              <Authenticated
-                name={user?.name as string}
-                email={user?.email as string}
-              />
+              <p>{data?.data?.user.name}</p>
             ) : (
+              // <Authenticated
+              //   name={user?.name as string}
+              //   email={user?.email as string}
+              // />
               <div className="hidden lg:flex items-center gap-2">
                 <Link to="/auth/signin">
-                  <Button>Login</Button>
+                  <Button>{data?.data?.user.name}</Button>
                 </Link>
 
                 <Link to="/auth/signin">
@@ -109,12 +107,12 @@ export default function HeaderComponent() {
               </div>
             )}
           </>
-          <SheetTriggerC
+          {/* <SheetTriggerC
             name={user?.name as string}
             email={user?.email as string}
             isAdmin={user?.isAdmin as boolean}
             isAuthenticated={isAuthenticated as boolean}
-          />
+          /> */}
         </div>
       </div>
 
@@ -128,51 +126,65 @@ export default function HeaderComponent() {
   );
 }
 
-const SearchComponent = function() {
+const SearchComponent = () => {
   const [globalSearchValue, setGlobalSearch] = React.useState("");
   const navigate = useNavigate();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSearchSubmit = function(e: any) {
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (globalSearchValue.length > 0)
-      navigate(`/search?query=${globalSearchValue}`);
+    if (globalSearchValue.trim().length > 0) {
+      navigate(`/search?query=${globalSearchValue.trim()}`);
+    }
   };
+
   return (
     <form
-      className="w-[90%] lg:w-[60%] 2xl:w-[40%] h-[60%] relative"
       onSubmit={handleSearchSubmit}
+      className=" relative w-[90%] md:w-[70%] lg:w-[50%] xl:w-[40%] h-12 mx-auto flex items-center transition-all duration-300"
     >
-      <SearchIcon className="absolute top-[50%] -translate-y-[50%] left-2 text-gray-700 dark:text-gray-400 size-5" />
+      <SearchIcon
+        className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground size-5 pointer-events-none"
+        aria-hidden="true"
+      />
       <input
+        type="text"
         value={globalSearchValue}
         onChange={(e) => setGlobalSearch(e.target.value)}
-        type="text"
-        placeholder="Search products"
-        className="w-full h-full outline-none border-[1px] border-secondary rounded-4 pl-8 pr-10 rounded-lg"
+        placeholder="Search for amazing products..."
+        aria-label="Search input"
+        className={cn(
+          "w-full h-full pl-10 pr-24 rounded-xl",
+          "bg-background text-foreground placeholder:text-muted-foreground",
+          "border border-input focus:outline-none focus:ring-2 focus:ring-primary/10 ",
+          "transition-all duration-200 ease-in-out shadow-sm"
+        )}
       />
-
-      <Button className="px-2 py-1 lg:px-3 lg:py-2 h-full text-gray-50 absolute top-[50%] -translate-y-[50%] right-0">
-        <span>Search</span>
+      <Button
+        type="submit"
+        variant="default"
+        aria-label="Search"
+        className="absolute right-1 top-1/2 -translate-y-1/2 rounded-0  h-[80%] text-sm  shadow-md  text-white  transition-colors"
+      >
+        Search
       </Button>
     </form>
   );
 };
 
-
-
-
-const SearchFilter = function() {
+const SearchFilter = function () {
   const { data } = useQuery({
-    queryKey: ['categories'],
+    queryKey: ["categories"],
     queryFn: getAllCategories,
   });
 
-  const categories = [{ name: "All Categories", slug: "all" }, ...(data?.data || [])];
+  const categories = [
+    { name: "All Categories", slug: "all" },
+    ...(data?.data || []),
+  ];
 
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState<string>("all");
-  console.log(value)
+  console.log(value);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -183,7 +195,8 @@ const SearchFilter = function() {
           aria-expanded={open}
           className="w-[200px] justify-between text-xs lg:text-base px-2 py-1 lg:px-3 lg:py-2"
         >
-          {categories.find((category) => category.slug === value)?.name || "All Categories"}
+          {categories.find((category) => category.slug === value)?.name ||
+            "All Categories"}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -219,14 +232,12 @@ const SearchFilter = function() {
   );
 };
 
-
-
 interface IAuthneticated {
   name: string;
   email: string;
 }
 
-const Authenticated = function({ name, email }: IAuthneticated) {
+const Authenticated = function ({ name, email }: IAuthneticated) {
   return (
     <Popover>
       <PopoverTrigger>
@@ -267,7 +278,7 @@ interface ISheetTrigger {
   isAuthenticated: boolean;
 }
 
-const SheetTriggerC = function({
+const SheetTriggerC = function ({
   name,
   email,
   isAdmin,
@@ -330,7 +341,7 @@ const SheetTriggerC = function({
                 <div className="flex items-center gap-2">
                   <Link
                     to="/auth/signin"
-                    className="text-base tracking-[1px] bg-orange-500 py-1 px-2 rounded-md text-white"
+                    className="text-base tracking-[1px] py-1 px-2 rounded-md text-white"
                   >
                     Login
                   </Link>

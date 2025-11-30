@@ -62,7 +62,7 @@ export default function AddReview() {
             placeholder="0"
             {...register("rating")}
             type="text"
-            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
+            className="w-full h-12 px-5 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px]
             border-slate-600 rounded-md"
           />
 
@@ -81,7 +81,7 @@ export default function AddReview() {
             id="password"
             placeholder="Your Review"
             {...register("review")}
-            className="w-full h-40 lg:h-52 px-5 pt-3 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px] 
+            className="w-full h-40 lg:h-52 px-5 pt-3 placeholder:text-gray-700 dark:placeholder:text-gray-300 outline-none border-[1px]
             border-slate-600 shadow-sm rounded-md  resize-none"
           />
           {errors["review"] && (
